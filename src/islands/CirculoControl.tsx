@@ -1,9 +1,50 @@
 import { useRef, useState } from 'preact/hooks';
-import { diarioNavegador } from '../lib/diario';
+import { diarioNavegador } from '../lib/diario-navegador';
 
 // CA-003.1: ubicar preocupaciones dentro/fuera del círculo con clic, arrastre o teclado.
 type Zona = 'sin' | 'dentro' | 'fuera';
 interface Item { id: number; texto: string; zona: Zona }
+const NOMBRE_ZONA: Record<Zona, string> = { sin: 'sin ubicar', dentro: 'depende de ti', fuera: 'no depende de ti' };
+
+// Arrastre con pointer events (ratón y dedo). Devuelve la zona bajo el punto donde se suelta, si la hay.
+function arrastrar(ev: PointerEvent, alSoltar: (zona: Zona) => void) {
+  const chip = ev.currentTarget as HTMLElement;
+  if ((ev.target as HTMLElement).closest('button')) return;
+  const x0 = ev.clientX, y0 = ev.clientY;
+  let movido = false;
+  chip.setPointerCapture(ev.pointerId);
+  const mueve = (e: PointerEvent) => {
+    const dx = e.clientX - x0, dy = e.clientY - y0;
+    movido ||= Math.hypot(dx, dy) > 4;
+    chip.style.transform = `translate(${dx}px, ${dy}px) rotate(${dx / 40}deg)`;
+    chip.classList.add('volando');
+  };
+  const suelta = (e: PointerEvent) => {
+    chip.removeEventListener('pointermove', mueve);
+    chip.style.transform = '';
+    chip.classList.remove('volando');
+    if (!movido) return;
+    chip.style.visibility = 'hidden';
+    const bajo = document.elementFromPoint(e.clientX, e.clientY);
+    chip.style.visibility = '';
+    const zona = bajo?.closest<HTMLElement>('[data-zona]')?.dataset.zona as Zona | undefined;
+    if (zona) alSoltar(zona);
+  };
+  chip.addEventListener('pointermove', mueve);
+  chip.addEventListener('pointerup', suelta, { once: true });
+}
+
+function Chip({ it, mover }: { it: Item; mover: (id: number, zona: Zona) => void }) {
+  return (
+    <li class={`chip ${it.zona}`} onPointerDown={(ev) => arrastrar(ev, (zona) => mover(it.id, zona))}>
+      <span>{it.texto}</span>
+      <span class="acciones">
+        {it.zona !== 'dentro' && <button type="button" onClick={() => mover(it.id, 'dentro')} aria-label={`Mover "${it.texto}" a: depende de mí`}>Depende de mí</button>}
+        {it.zona !== 'fuera' && <button type="button" onClick={() => mover(it.id, 'fuera')} aria-label={`Mover "${it.texto}" a: no depende de mí`}>No depende</button>}
+      </span>
+    </li>
+  );
+}
 
 export default function CirculoControl() {
   const [items, setItems] = useState<Item[]>([]);
@@ -11,7 +52,6 @@ export default function CirculoControl() {
   const [fase, setFase] = useState<'ubicar' | 'sintesis' | 'guardado'>('ubicar');
   const [paso, setPaso] = useState('');
   const [aviso, setAviso] = useState('');
-  const campo = useRef<HTMLDivElement>(null);
   const siguiente = useRef(1);
 
   const añadir = (e: Event) => {
@@ -25,46 +65,8 @@ export default function CirculoControl() {
   const mover = (id: number, zona: Zona) => {
     setItems((xs) => xs.map((x) => (x.id === id ? { ...x, zona } : x)));
     const it = items.find((x) => x.id === id);
-    if (it) setAviso(`${it.texto}: ${zona === 'dentro' ? 'depende de ti' : zona === 'fuera' ? 'no depende de ti' : 'sin ubicar'}.`);
+    if (it) setAviso(`${it.texto}: ${NOMBRE_ZONA[zona]}.`);
   };
-
-  // Arrastre con pointer events (funciona con ratón y con el dedo).
-  const arrastrar = (id: number) => (ev: PointerEvent) => {
-    const chip = ev.currentTarget as HTMLElement;
-    if ((ev.target as HTMLElement).closest('button')) return;
-    const x0 = ev.clientX, y0 = ev.clientY;
-    let movido = false;
-    chip.setPointerCapture(ev.pointerId);
-    const mueve = (e: PointerEvent) => {
-      const dx = e.clientX - x0, dy = e.clientY - y0;
-      if (Math.hypot(dx, dy) > 4) movido = true;
-      chip.style.transform = `translate(${dx}px, ${dy}px) rotate(${dx / 40}deg)`;
-      chip.classList.add('volando');
-    };
-    const suelta = (e: PointerEvent) => {
-      chip.removeEventListener('pointermove', mueve);
-      chip.style.transform = '';
-      chip.classList.remove('volando');
-      if (!movido) return;
-      chip.style.visibility = 'hidden';
-      const bajo = document.elementFromPoint(e.clientX, e.clientY) as HTMLElement | null;
-      chip.style.visibility = '';
-      const zona = bajo?.closest<HTMLElement>('[data-zona]')?.dataset.zona as Zona | undefined;
-      if (zona) mover(id, zona);
-    };
-    chip.addEventListener('pointermove', mueve);
-    chip.addEventListener('pointerup', suelta, { once: true });
-  };
-
-  const Chip = ({ it }: { it: Item }) => (
-    <li class={`chip ${it.zona}`} onPointerDown={arrastrar(it.id)} key={it.id}>
-      <span>{it.texto}</span>
-      <span class="acciones">
-        {it.zona !== 'dentro' && <button type="button" onClick={() => mover(it.id, 'dentro')} aria-label={`Mover "${it.texto}" a: depende de mí`}>Depende de mí</button>}
-        {it.zona !== 'fuera' && <button type="button" onClick={() => mover(it.id, 'fuera')} aria-label={`Mover "${it.texto}" a: no depende de mí`}>No depende</button>}
-      </span>
-    </li>
-  );
 
   const dentro = items.filter((x) => x.zona === 'dentro');
   const fuera = items.filter((x) => x.zona === 'fuera');
@@ -109,16 +111,16 @@ export default function CirculoControl() {
       {sin.length > 0 && (
         <div class="bandeja" data-zona="sin">
           <p class="inscripcion">Sin ubicar · arrástralas o usa los botones</p>
-          <ul>{sin.map((it) => <Chip it={it} />)}</ul>
+          <ul>{sin.map((it) => <Chip key={it.id} it={it} mover={mover} />)}</ul>
         </div>
       )}
 
-      <div class="campo" ref={campo} data-zona="fuera" aria-label="Fuera del círculo: no depende de mí">
+      <div class="campo" data-zona="fuera" aria-label="Fuera del círculo: no depende de mí">
         <p class="rotulo fuera-r">No depende de mí</p>
-        <ul class="lista-fuera">{fuera.map((it) => <Chip it={it} />)}</ul>
+        <ul class="lista-fuera">{fuera.map((it) => <Chip key={it.id} it={it} mover={mover} />)}</ul>
         <div class="anillo" data-zona="dentro" aria-label="Dentro del círculo: depende de mí">
           <p class="rotulo dentro-r">Depende de mí</p>
-          <ul>{dentro.map((it) => <Chip it={it} />)}</ul>
+          <ul>{dentro.map((it) => <Chip key={it.id} it={it} mover={mover} />)}</ul>
         </div>
       </div>
 

@@ -78,5 +78,9 @@ export const casoSchema = z.object({
   origen: z.enum(['curado', 'ia']).default('curado'),
 });
 
+/** "campo: mensaje" para cada problema de validación; `caso` cuando el problema es del objeto entero. */
+export const describirErrores = (e: z.ZodError): string[] =>
+  e.issues.map((i) => `${i.path.join('.') || 'caso'}: ${i.message}`);
+
 export type Cita = z.infer<typeof citaSchema>;
 export type Caso = z.infer<typeof casoSchema>;

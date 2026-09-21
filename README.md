@@ -13,7 +13,7 @@ PWA en español que introduce la filosofía estoica con **un caso de la vida rea
 1. `.specify/memory/constitution.md`: reglas no negociables.
 2. `specs/NNN-*/`: `spec.md` → `plan.md` → `tasks.md`. Cada criterio `CA-NNN.k` tiene su prueba.
 3. El arnés:
-   - `npm run verify`: tipos, validación de contenido (esquemas Zod + corpus de citas cerrado + reglas de cuidado), tests unitarios y evals offline.
+   - `npm run verify`: tipos, lint estricto con límites de complejidad, duplicación, código muerto, validación de contenido (esquemas Zod + corpus de citas cerrado + reglas de cuidado), cobertura, evals offline y **pruebas de mutación**. Métricas en [`docs/calidad.md`](docs/calidad.md).
    - `npm run test:e2e`: Playwright en móvil y escritorio, con axe (WCAG 2.2 AA) y prueba offline.
    - Hooks de Claude Code (`.claude/settings.json`): valida contenido al editarlo y bloquea el cierre de una tarea con el arnés en rojo.
    - Pipeline diario (`scripts/daily-case/`): generar → reglas + juez → hasta 3 intentos → publicar o fallback al banco.
@@ -26,7 +26,6 @@ npm run verify           # arnés rápido
 npm run build && npm run test:e2e
 npm run daily -- --dry-run   # caso diario sin escribir (requiere ANTHROPIC_API_KEY)
 npm run evals:llm        # evals con el modelo (requiere ANTHROPIC_API_KEY)
-node scripts/seed/build.mjs  # regenerar el banco de casos desde scripts/seed/*.mjs
 ```
 
 ## Publicar en GitHub Pages

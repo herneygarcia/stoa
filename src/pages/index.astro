@@ -3,11 +3,12 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Reloj from '../components/Reloj.astro';
 import CasoView from '../components/CasoView.astro';
-import { elegirCaso, fechaEnBogota } from '../lib/caso-del-dia';
+import { elegirCaso } from '../lib/caso-del-dia';
+import { fechaEnColombia } from '../lib/tiempo';
 import { url } from '../lib/url';
 
 // CA-002.1: el sitio se reconstruye cada día a las 05:00 (Bogotá); el caso se fija en el build.
-const hoy = fechaEnBogota();
+const hoy = fechaEnColombia();
 const casos = (await getCollection('casos')).map((c) => ({ ...c, fecha: c.data.fecha }));
 const caso = elegirCaso(hoy, casos);
 const fechaLarga = new Intl.DateTimeFormat('es-CO', { timeZone: 'UTC', weekday: 'long', day: 'numeric', month: 'long' }).format(new Date(`${hoy}T12:00:00Z`));

@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { url } from '../lib/url';
+import { ZONA, horaEnColombia, momentoDelDia } from '../lib/tiempo';
 
 interface Props { titulo: string; descripcion?: string; seccion?: 'hoy' | 'principios' | 'practicas' | 'casos' | 'diario' }
 const { titulo, descripcion = 'Filosofía estoica para la vida diaria: un caso real cada día, prácticas y un diario privado.', seccion } = Astro.props;
@@ -11,6 +12,8 @@ const nav = [
   { id: 'casos', href: '/casos', texto: 'Casos' },
   { id: 'diario', href: '/diario', texto: 'Diario' },
 ];
+// Momento del día antes de pintar (evita parpadeo). Se insertan las mismas funciones de lib/tiempo: una sola fuente de verdad.
+const momentoInicial = `try{const ZONA=${JSON.stringify(ZONA)};const horaEnColombia=${horaEnColombia};const momentoDelDia=${momentoDelDia};document.documentElement.dataset.momento=momentoDelDia(horaEnColombia())}catch(e){/* sin Intl: se muestra la tarde */}`;
 const tituloCompleto = titulo === 'Stoa' ? 'Stoa · estoicismo para cada día' : `${titulo} · Stoa`;
 ---
 <!doctype html>
@@ -22,11 +25,7 @@ const tituloCompleto = titulo === 'Stoa' ? 'Stoa · estoicismo para cada día' :
     <meta name="description" content={descripcion} />
     <meta name="theme-color" content="#E4E6DF" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#161A1F" media="(prefers-color-scheme: dark)" />
-    <script is:inline>
-      // Momento del día (Bogotá) antes de pintar, para que la portada no parpadee.
-      try { const h = +new Intl.DateTimeFormat('en-GB', { timeZone: 'America/Bogota', hour: 'numeric', hourCycle: 'h23' }).format(new Date());
-        document.documentElement.dataset.momento = h >= 5 && h < 12 ? 'manana' : h >= 12 && h < 18 ? 'tarde' : 'noche'; } catch {}
-    </script>
+    <script is:inline set:html={momentoInicial} />
     <link rel="manifest" href={url('/manifest.webmanifest')} />
     <link rel="icon" href={url('/icono.svg')} type="image/svg+xml" />
     <link rel="apple-touch-icon" href={url('/icono-192.png')} />

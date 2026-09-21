@@ -1,14 +1,18 @@
 // Diario privado (CA-004.2/3): todo vive en IndexedDB del dispositivo. Nada sale por red.
-import { fechaEnBogota } from './caso-del-dia.ts';
+import { fechaEnColombia } from './tiempo.ts';
 
-export type Tipo = 'reflexion' | 'circulo' | 'termometro' | 'examen';
-export interface Entrada {
-  id: string;
-  creada: string; // ISO
-  tipo: Tipo;
-  titulo: string;
-  datos: Record<string, unknown>;
+/** Datos que guarda cada práctica. El tipo de la entrada determina la forma de sus datos. */
+interface DatosPorTipo {
+  reflexion: { pregunta: string; respuesta: string };
+  circulo: { dentro: string[]; fuera: string[]; paso: string };
+  termometro: { emocion: string; intensidad: number; hecho: string; juicio: string; cierto: string; depende: string };
+  examen: { bien: string; fallo: string; manana: string };
 }
+type Tipo = keyof DatosPorTipo;
+
+/** Unión discriminada por `tipo`: TypeScript sabe qué datos tiene cada entrada sin conversiones forzadas. */
+export type NuevaEntrada = { [K in Tipo]: { tipo: K; titulo: string; datos: DatosPorTipo[K] } }[Tipo];
+export type Entrada = NuevaEntrada & { id: string; creada: string /* ISO */ };
 export interface Almacen {
   get<T>(clave: string): Promise<T | undefined>;
   set(clave: string, valor: unknown): Promise<void>;
@@ -23,13 +27,14 @@ export function crearDiario(almacen: Almacen, ahora: () => Date = () => new Date
 
   return {
     listar,
-    async guardar(e: Omit<Entrada, 'id' | 'creada'>): Promise<Entrada> {
+    async guardar(e: NuevaEntrada): Promise<Entrada> {
       const nueva: Entrada = { ...e, id: crypto.randomUUID(), creada: ahora().toISOString() };
       await escribir([nueva, ...(await listar())]);
       return nueva;
     },
-    async actualizar(id: string, datos: Record<string, unknown>) {
-      await escribir((await listar()).map((e) => (e.id === id ? { ...e, datos: { ...e.datos, ...datos } } : e)));
+    /** Guarda la respuesta a una reflexión (la única entrada que se completa después de creada). */
+    async responder(id: string, respuesta: string) {
+      await escribir((await listar()).map((e) => (e.id === id && e.tipo === 'reflexion' ? { ...e, datos: { ...e.datos, respuesta } } : e)));
     },
     async borrar(id: string) {
       await escribir((await listar()).filter((e) => e.id !== id));
@@ -41,13 +46,7 @@ export function crearDiario(almacen: Almacen, ahora: () => Date = () => new Date
   };
 }
 
-/** Días (AAAA-MM-DD, Bogotá) en que hubo al menos una práctica: son las hojas del olivo (CA-004.5). */
+/** Días (AAAA-MM-DD, Colombia) en que hubo al menos una práctica: son las hojas del olivo (CA-004.5). */
 export function diasConPractica(entradas: Entrada[]): string[] {
-  return [...new Set(entradas.map((e) => fechaEnBogota(new Date(e.creada))))].sort();
-}
-
-/** Diario del navegador, respaldado por idb-keyval. Import dinámico: no se carga en el servidor. */
-export async function diarioNavegador() {
-  const idb = await import('idb-keyval');
-  return crearDiario({ get: idb.get, set: idb.set, del: idb.del });
+  return [...new Set(entradas.map((e) => fechaEnColombia(new Date(e.creada))))].sort();
 }

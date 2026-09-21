@@ -1,0 +1,16 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "entry": [
+    "scripts/**/*.{ts,mjs}",
+    "src/pages/**/*.{astro,ts}",
+    "tests/**/*.ts"
+  ],
+  "project": [
+    "src/**/*.{ts,tsx,astro}",
+    "scripts/**/*.{ts,mjs}",
+    "tests/**/*.ts"
+  ],
+  "ignoreDependencies": [
+    "@stryker-mutator/command-runner"
+  ]
+}

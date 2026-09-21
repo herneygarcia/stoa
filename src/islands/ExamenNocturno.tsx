@@ -1,5 +1,5 @@
 import { useState } from 'preact/hooks';
-import { diarioNavegador } from '../lib/diario';
+import { diarioNavegador } from '../lib/diario-navegador';
 
 // CA-003.2: las tres preguntas del examen de Séneca (Sobre la ira III.36).
 const PREGUNTAS = [
@@ -16,7 +16,7 @@ export default function ExamenNocturno() {
 
   const guardar = async () => {
     const d = await diarioNavegador();
-    await d.guardar({ tipo: 'examen', titulo: 'Examen nocturno', datos: resp });
+    await d.guardar({ tipo: 'examen', titulo: 'Examen nocturno', datos: { bien: resp.bien ?? '', fallo: resp.fallo ?? '', manana: resp.manana ?? '' } });
     setFin(true);
   };
 

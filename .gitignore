@@ -6,3 +6,7 @@ playwright-report/
 .env
 .DS_Store
 ~$*.docx
+.stryker-tmp/
+reports/
+coverage/
+stryker-setup-*.js

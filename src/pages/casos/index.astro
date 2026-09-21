@@ -3,13 +3,14 @@ import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import { url } from '../../lib/url';
 import { AMBITOS } from '../../lib/schemas';
-import { fechaEnBogota } from '../../lib/caso-del-dia';
+import { fechaEnColombia } from '../../lib/tiempo';
 
-const hoy = fechaEnBogota();
+const hoy = fechaEnColombia();
 const todos = await getCollection('casos');
 // CA-002.6: los diarios anteriores, del más reciente al más antiguo (nunca del futuro).
-const diarios = todos.filter((c) => c.data.fecha && c.data.fecha.toISOString().slice(0, 10) <= hoy)
-  .sort((a, b) => +b.data.fecha! - +a.data.fecha!);
+const diarios = todos
+  .flatMap((c) => (c.data.fecha && c.data.fecha.toISOString().slice(0, 10) <= hoy ? [{ ...c, fecha: c.data.fecha }] : []))
+  .sort((a, b) => +b.fecha - +a.fecha);
 const banco = todos.filter((c) => !c.data.fecha);
 const slug = (id: string) => id.split('/').pop();
 const nombre: Record<string, string> = { trabajo: 'Trabajo', familia: 'Familia', pareja: 'Pareja', amistad: 'Amistad', dinero: 'Dinero', salud: 'Salud', estudio: 'Estudio', redes: 'Redes y pantallas', ciudad: 'La ciudad' };
@@ -25,7 +26,7 @@ const fmt = (d: Date) => new Intl.DateTimeFormat('es-CO', { timeZone: 'UTC', day
   {diarios.length > 0 && (
     <section class="envoltura bloque">
       <h2>Publicados cada día</h2>
-      <ul class="lista">{diarios.map((c) => <li><span class="inscripcion">{fmt(c.data.fecha!)}</span><a href={url(`/casos/${slug(c.id)}`)}>{c.data.titulo}</a></li>)}</ul>
+      <ul class="lista">{diarios.map((c) => <li><span class="inscripcion">{fmt(c.fecha)}</span><a href={url(`/casos/${slug(c.id)}`)}>{c.data.titulo}</a></li>)}</ul>
     </section>
   )}
 

@@ -14,8 +14,6 @@
   --ocre-texto: #86600F;   /* ocre legible sobre la cal (AA) */
   --ocre-suave: #EBD9A8;
   --sombra: rgb(35 39 43 / 0.16);
-  --cielo-dia: #CFDCE3;
-  --cielo-noche: #1E2A38;
   color-scheme: light;
 
   --f-display: 'Piazzolla', 'Iowan Old Style', Georgia, serif;
@@ -30,18 +28,11 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
+  :root {
     --cal: #161A1F; --cal-2: #1D2228; --marmol: #232930;
     --piedra: #DDE1DA; --piedra-2: #A3AAA6; --veta: #39414A;
     --azul: #8DB4DE; --malaquita: #8CC3A0; --ocre: #E2B653; --ocre-texto: #E2B653; --ocre-suave: #4A3F22;
-    --sombra: rgb(0 0 0 / 0.35); --cielo-dia: #2A3A47; --cielo-noche: #0E141B;
+    --sombra: rgb(0 0 0 / 0.35);
     color-scheme: dark;
   }
-}
-:root[data-theme="dark"] {
-  --cal: #161A1F; --cal-2: #1D2228; --marmol: #232930;
-  --piedra: #DDE1DA; --piedra-2: #A3AAA6; --veta: #39414A;
-  --azul: #8DB4DE; --malaquita: #8CC3A0; --ocre: #E2B653; --ocre-texto: #E2B653; --ocre-suave: #4A3F22;
-  --sombra: rgb(0 0 0 / 0.35); --cielo-dia: #2A3A47; --cielo-noche: #0E141B;
-  color-scheme: dark;
 }

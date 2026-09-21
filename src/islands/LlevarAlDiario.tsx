@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'preact/hooks';
-import { diarioNavegador } from '../lib/diario';
+import { diarioNavegador } from '../lib/diario-navegador';
 
 // CA-002.7: la pregunta del caso se convierte en una entrada del diario.
 export default function LlevarAlDiario({ pregunta, titulo, base }: { pregunta: string; titulo: string; base: string }) {

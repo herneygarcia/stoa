@@ -1,27 +1,19 @@
 // Arnés de contenido (CA-001.4, CA-002.3): valida todo src/content contra el contrato y las reglas.
-import { readFileSync, readdirSync, statSync } from 'node:fs';
-import { join, basename } from 'node:path';
-import matter from 'gray-matter';
-import { citaSchema, principioSchema, virtudSchema, practicaSchema } from '../src/lib/schemas.ts';
+import { basename } from 'node:path';
+import { citaSchema, principioSchema, virtudSchema, practicaSchema, describirErrores } from '../src/lib/schemas.ts';
 import { reglasCaso } from '../src/lib/reglas.ts';
+import { archivosMd, frontmatter as leer, leerCitasCrudas } from './contenido.ts';
 
-const RAIZ = 'src/content';
 const errores: string[] = [];
 const err = (archivo: string, msg: string) => errores.push(`✗ ${archivo}: ${msg}`);
 
-const archivos = (dir: string): string[] =>
-  readdirSync(dir).flatMap((f) => {
-    const p = join(dir, f);
-    return statSync(p).isDirectory() ? archivos(p) : p.endsWith('.md') ? [p] : [];
-  });
-const leer = (p: string) => matter(readFileSync(p, 'utf8')).data;
 
 // Citas
-const crudo = JSON.parse(readFileSync(join(RAIZ, 'citas/citas.json'), 'utf8')) as unknown[];
+const crudo = leerCitasCrudas();
 const citas = new Set<string>();
 for (const c of crudo) {
   const r = citaSchema.safeParse(c);
-  if (!r.success) { err('citas.json', JSON.stringify(r.error.issues[0])); continue; }
+  if (!r.success) { err('citas.json', describirErrores(r.error).join('; ')); continue; }
   if (citas.has(r.data.id)) err('citas.json', `id duplicado ${r.data.id}`);
   citas.add(r.data.id);
 }
@@ -29,33 +21,33 @@ const exigeCita = (archivo: string, id: string) => { if (!citas.has(id)) err(arc
 
 // Prácticas
 const practicas = new Set<string>();
-for (const p of archivos(join(RAIZ, 'practicas'))) {
+for (const p of archivosMd('practicas')) {
   const r = practicaSchema.safeParse(leer(p));
-  if (!r.success) { err(p, r.error.issues.map((i) => `${i.path.join('.')}: ${i.message}`).join('; ')); continue; }
+  if (!r.success) { err(p, describirErrores(r.error).join('; ')); continue; }
   practicas.add(basename(p, '.md'));
   exigeCita(p, r.data.cita);
 }
 
 // Principios y virtudes
-const principios = archivos(join(RAIZ, 'principios'));
+const principios = archivosMd('principios');
 if (principios.length !== 7) err('principios', `se esperaban 7 principios, hay ${principios.length}`);
 for (const p of principios) {
   const r = principioSchema.safeParse(leer(p));
-  if (!r.success) { err(p, r.error.issues.map((i) => `${i.path.join('.')}: ${i.message}`).join('; ')); continue; }
+  if (!r.success) { err(p, describirErrores(r.error).join('; ')); continue; }
   r.data.citas.forEach((c) => exigeCita(p, c));
   r.data.practicas.forEach((s) => { if (!practicas.has(s)) err(p, `práctica "${s}" no existe`); });
 }
-const virtudes = archivos(join(RAIZ, 'virtudes'));
+const virtudes = archivosMd('virtudes');
 if (virtudes.length !== 4) err('virtudes', `se esperaban 4 virtudes, hay ${virtudes.length}`);
 for (const p of virtudes) {
   const r = virtudSchema.safeParse(leer(p));
-  if (!r.success) { err(p, r.error.issues.map((i) => `${i.path.join('.')}: ${i.message}`).join('; ')); continue; }
+  if (!r.success) { err(p, describirErrores(r.error).join('; ')); continue; }
   r.data.citas.forEach((c) => exigeCita(p, c));
 }
 
 // Casos (banco + diarios)
 const titulos: string[] = [];
-const casos = archivos(join(RAIZ, 'casos'));
+const casos = archivosMd('casos');
 for (const p of casos) {
   const data = leer(p);
   reglasCaso(data, { citas, titulosPrevios: titulos }).forEach((e) => err(p, e));

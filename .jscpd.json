@@ -1,0 +1,7 @@
+{
+  "threshold": 3,
+  "minTokens": 50,
+  "reporters": ["console"],
+  "ignore": ["**/node_modules/**", "**/dist/**", "**/.astro/**", "**/src/content/**", "**/*.md", "**/*.json", "scripts/seed/**"],
+  "format": ["typescript", "tsx", "javascript", "astro", "css"]
+}

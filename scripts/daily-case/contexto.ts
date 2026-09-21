@@ -1,15 +1,7 @@
 // Contexto del pipeline diario: todo lo que el modelo puede usar sale del contenido del repo.
-import { readFileSync, readdirSync, statSync } from 'node:fs';
-import { join } from 'node:path';
-import matter from 'gray-matter';
+import { basename } from 'node:path';
 import type { Cita } from '../../src/lib/schemas.ts';
-
-const RAIZ = 'src/content';
-const md = (dir: string): string[] =>
-  readdirSync(dir).flatMap((f) => {
-    const p = join(dir, f);
-    return statSync(p).isDirectory() ? md(p) : p.endsWith('.md') ? [p] : [];
-  });
+import { archivosMd, frontmatter, leerCitasCrudas } from '../contenido.ts';
 
 export interface Contexto {
   citas: Cita[];
@@ -20,13 +12,13 @@ export interface Contexto {
 }
 
 export function cargarContexto(): Contexto {
-  const citas = JSON.parse(readFileSync(join(RAIZ, 'citas/citas.json'), 'utf8')) as Cita[];
-  const leer = (dir: string) =>
-    md(join(RAIZ, dir)).map((p) => {
-      const d = matter(readFileSync(p, 'utf8')).data;
-      return { id: p.split('/').pop()!.replace(/\.md$/, ''), titulo: String(d.titulo), resumen: String(d.resumen) };
+  const citas = leerCitasCrudas() as Cita[];
+  const leer = (carpeta: string) =>
+    archivosMd(carpeta).map((p) => {
+      const d = frontmatter(p);
+      return { id: basename(p, '.md'), titulo: String(d.titulo), resumen: String(d.resumen) };
     });
-  const casos = md(join(RAIZ, 'casos')).map((p) => ({ p, d: matter(readFileSync(p, 'utf8')).data }));
+  const casos = archivosMd('casos').map((p) => ({ p, d: frontmatter(p) }));
   const diarios = casos.filter((c) => c.p.includes('/diarios/')).sort((a, b) => b.p.localeCompare(a.p));
   return {
     citas,

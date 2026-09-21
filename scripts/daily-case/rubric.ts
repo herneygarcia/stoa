@@ -24,8 +24,9 @@ export async function evaluar(client: Anthropic | null, caso: CasoCandidato, ctx
   const errores = reglasCaso(caso, { citas: new Set(ctx.citas.map((c) => c.id)), titulosPrevios: ctx.titulos });
   if (errores.length || !client) return { aprobado: errores.length === 0, errores };
 
-  const cita = ctx.citas.find((c) => c.id === caso.cita)!;
-  const principio = ctx.principios.find((p) => p.id === caso.principio)!;
+  const cita = ctx.citas.find((c) => c.id === caso.cita);
+  const principio = ctx.principios.find((p) => p.id === caso.principio);
+  if (!cita || !principio) return { aprobado: false, errores: ['contexto: cita o principio desconocido'] };
   const r = await client.beta.messages.parse({
     model: MODELO,
     max_tokens: 8000,

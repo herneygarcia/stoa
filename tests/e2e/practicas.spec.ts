@@ -1,4 +1,12 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Locator } from '@playwright/test';
+
+/** Centro de un elemento visible (falla la prueba si el elemento no tiene caja). */
+async function centro(l: Locator) {
+  const caja = await l.boundingBox();
+  expect(caja).not.toBeNull();
+  const { x, y, width, height } = caja ?? { x: 0, y: 0, width: 0, height: 0 };
+  return { x: x + width / 2, y: y + height / 2 };
+}
 
 test('CA-002.7 llevar la pregunta del caso al diario', async ({ page }) => {
   await page.goto('/casos/ciudad-trancon');
@@ -33,12 +41,11 @@ test('CA-003.1 círculo del control con arrastre', async ({ page, isMobile }) =>
   await page.goto('/practicas/circulo-del-control');
   await page.getByPlaceholder(/Qué te inquieta/).fill('Dormir bien');
   await page.getByRole('button', { name: 'Añadir' }).click();
-  const chip = page.locator('.bandeja .chip span').first();
-  const destino = await page.locator('.anillo').boundingBox();
-  const origen = await chip.boundingBox();
-  await page.mouse.move(origen!.x + 5, origen!.y + 5);
+  const origen = await centro(page.locator('.bandeja .chip span').first());
+  const destino = await centro(page.locator('.anillo'));
+  await page.mouse.move(origen.x, origen.y);
   await page.mouse.down();
-  await page.mouse.move(destino!.x + destino!.width / 2, destino!.y + destino!.height / 2, { steps: 8 });
+  await page.mouse.move(destino.x, destino.y, { steps: 8 });
   await page.mouse.up();
   await expect(page.locator('.anillo .chip')).toContainText('Dormir bien');
 });
