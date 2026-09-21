@@ -80,10 +80,11 @@ const tituloCompleto = titulo === 'Stoa' ? 'Stoa · estoicismo para cada día' :
   nav a { color: var(--piedra-2); text-decoration: none; padding: .35rem .2rem; font-weight: 500; border-bottom: 2px solid transparent; }
   nav a:hover { color: var(--piedra); }
   nav a[aria-current="page"] { color: var(--piedra); border-bottom-color: var(--ocre); }
-  .pie { margin-top: var(--e-6); padding-block: var(--e-4); background: var(--cal-2); border-top: 1px solid var(--veta); font-size: .9375rem; }
+  .pie { margin-top: var(--e-6); padding-block: var(--e-2); background: var(--cal-2); border-top: 1px solid var(--veta); font-size: .9375rem; }
   .pie-rejilla { display: grid; gap: var(--e-4); }
   @media (min-width: 52rem) { .pie-rejilla { grid-template-columns: 1fr 1fr auto; } }
   .pie p { max-width: 34rem; color: var(--piedra-2); }
+  .pie-rejilla p:last-child { margin-bottom: 0; }
   .ayuda strong { color: var(--piedra); }
   .autor { display: flex; justify-content: flex-end; align-items: flex-start; }
   .autor img { height: 64px; width: auto; background: #fff; padding: 4px 6px; border-radius: var(--radio); box-shadow: 0 1px 0 var(--sombra); }
