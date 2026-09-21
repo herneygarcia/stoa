@@ -11,7 +11,7 @@
 
 ## II. Cuidado, no clínica
 1. Stoa no diagnostica, no receta y no reemplaza la ayuda profesional.
-2. Ante duelo reciente, violencia, autolesión o ideación suicida, el contenido deriva a ayuda profesional y muestra líneas de ayuda (Colombia: Línea 106 en Bogotá; Línea 192 opción 4).
+2. Ante duelo reciente, violencia, autolesión o ideación suicida, el contenido deriva a ayuda profesional y muestra líneas de ayuda (Colombia: Línea 192, opción 4).
 3. El estoicismo no es "reprimir emociones": se enseña como examen de los juicios, no como frialdad.
 
 ## III. Privacidad total

@@ -59,7 +59,10 @@ const tituloCompleto = titulo === 'Stoa' ? 'Stoa · estoicismo para cada día' :
         </div>
         <div class="ayuda" id="lineas-de-ayuda">
           <p class="inscripcion">Si lo estás pasando muy mal</p>
-          <p>El estoicismo acompaña; no reemplaza la ayuda profesional. En Colombia puedes llamar a la <strong>Línea 106</strong> (Bogotá) o a la <strong>Línea 192, opción 4</strong> (salud mental, todo el país). En una emergencia, al <strong>123</strong>.</p>
+          <p>El estoicismo acompaña pero no reemplaza la ayuda profesional. En Colombia puedes llamar a la <strong>Línea 192, opción 4</strong> (salud mental, todo el país).</p>
+        </div>
+        <div class="autor">
+          <img src={url('/herney.jpg')} alt="Herney Andrés García Perdomo — Urología oncológica · Epidemiología clínica" width="161" height="64" loading="lazy" />
         </div>
       </div>
     </footer>
@@ -78,8 +81,12 @@ const tituloCompleto = titulo === 'Stoa' ? 'Stoa · estoicismo para cada día' :
   nav a:hover { color: var(--piedra); }
   nav a[aria-current="page"] { color: var(--piedra); border-bottom-color: var(--ocre); }
   .pie { margin-top: var(--e-6); padding-block: var(--e-4); background: var(--cal-2); border-top: 1px solid var(--veta); font-size: .9375rem; }
-  .pie-rejilla { display: grid; gap: var(--e-4); grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
+  .pie-rejilla { display: grid; gap: var(--e-4); }
+  @media (min-width: 52rem) { .pie-rejilla { grid-template-columns: 1fr 1fr auto; } }
   .pie p { max-width: 34rem; color: var(--piedra-2); }
   .ayuda strong { color: var(--piedra); }
+  .autor { display: flex; justify-content: flex-end; align-items: flex-start; }
+  .autor img { height: 64px; width: auto; background: #fff; padding: 4px 6px; border-radius: var(--radio); box-shadow: 0 1px 0 var(--sombra); }
+  @media (max-width: 52rem) { .autor { justify-content: flex-start; } }
   @media (max-width: 30rem) { nav ul { gap: .1rem .7rem; } nav a { font-size: .9375rem; } }
 </style>

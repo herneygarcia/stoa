@@ -35,7 +35,7 @@ export default function Termometro() {
       {alerta && (
         <aside class="alerta" role="alert">
           <strong>No estás solo con esto.</strong> Si sientes que puedes hacerte daño o que no puedes más, habla hoy con alguien.
-          En Colombia: <strong>Línea 192, opción 4</strong> (todo el país) · <strong>Línea 106</strong> (Bogotá) · emergencias <strong>123</strong>.
+          En Colombia: <strong>Línea 192, opción 4</strong> (salud mental, todo el país).
         </aside>
       )}
 

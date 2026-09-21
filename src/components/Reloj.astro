@@ -10,7 +10,7 @@ const punto = (h: number, k = 1) => {
   return { x: CX + RX * k * Math.cos(phi), y: CY - RY * k * Math.sin(phi) };
 };
 ---
-<figure class="reloj" data-reloj aria-label="Reloj de sol: la sombra de la columna indica la hora en Bogotá">
+<figure class="reloj" data-reloj aria-label="Reloj de sol: la sombra de la columna indica la hora en Colombia">
   <svg viewBox="-24 0 448 280" role="img" aria-hidden="true">
     <defs>
       <linearGradient id="fuste" x1="0" x2="1">
@@ -49,7 +49,7 @@ const punto = (h: number, k = 1) => {
       <rect x={CX - 20} y={CY - 7} width="40" height="7" fill="var(--marmol)" />
     </g>
   </svg>
-  <figcaption class="inscripcion"><span data-hora-texto>Bogotá</span></figcaption>
+  <figcaption class="inscripcion"><span data-hora-texto>Colombia</span></figcaption>
 </figure>
 
 <style>
@@ -95,7 +95,7 @@ const punto = (h: number, k = 1) => {
     luna.style.opacity = dia ? '0' : '1';
     reloj.querySelectorAll('.hora').forEach((t) => t.classList.toggle('actual', dia && Number(t.getAttribute('data-h')) === Math.round(h)));
     const hh = Math.floor(h), mm = Math.round((h - hh) * 60);
-    reloj.querySelector('[data-hora-texto]')!.textContent = `Bogotá · ${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}`;
+    reloj.querySelector('[data-hora-texto]')!.textContent = `Colombia · ${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}`;
     document.documentElement.dataset.momento = h >= 5 && h < 12 ? 'manana' : h >= 12 && h < 18 ? 'tarde' : 'noche';
   }
 
