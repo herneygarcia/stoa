@@ -1,0 +1,53 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Cita from '../../components/Cita.astro';
+import CirculoControl from '../../islands/CirculoControl';
+import Termometro from '../../islands/Termometro';
+import ExamenNocturno from '../../islands/ExamenNocturno';
+import { url } from '../../lib/url';
+export async function getStaticPaths() {
+  return (await getCollection('practicas')).map((p) => ({ params: { slug: p.id }, props: { p } }));
+}
+const { p } = Astro.props;
+const momento = { 'mañana': 'Por la mañana', noche: 'Por la noche', cualquiera: 'En cualquier momento' }[p.data.momento];
+---
+<Base titulo={p.data.titulo} seccion="practicas" descripcion={p.data.resumen}>
+  <article class="envoltura">
+    <header class="cabeza">
+      <p class="inscripcion"><a href={url('/practicas')}>Prácticas</a> · {momento} · {p.data.duracionMin} min</p>
+      <h1>{p.data.titulo}</h1>
+      <p class="resumen">{p.data.resumen}</p>
+    </header>
+    <div class="dos">
+      <div class="principal">
+        {p.data.interactiva === 'circulo' && <CirculoControl client:load />}
+        {p.data.interactiva === 'termometro' && <Termometro client:load />}
+        {p.data.interactiva === 'examen' && <ExamenNocturno client:load />}
+        {!p.data.interactiva && (
+          <ol class="pasos-lista">{p.data.pasos.map((x) => <li>{x}</li>)}</ol>
+        )}
+      </div>
+      <aside>
+        {p.data.interactiva && (
+          <details class="como">
+            <summary>Cómo se hace, paso a paso</summary>
+            <ol>{p.data.pasos.map((x) => <li>{x}</li>)}</ol>
+          </details>
+        )}
+        <Cita id={p.data.cita} />
+      </aside>
+    </div>
+  </article>
+</Base>
+<style>
+  .cabeza { padding-block: var(--e-4) var(--e-2); max-width: 46rem; }
+  .resumen { font-size: var(--t-2); color: var(--piedra-2); }
+  .dos { display: grid; gap: var(--e-4); }
+  @media (min-width: 60rem) { .dos { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); } }
+  .pasos-lista { counter-reset: paso; list-style: none; padding: 0; margin: 0; }
+  .pasos-lista li { counter-increment: paso; position: relative; padding: var(--e-2) 0 var(--e-2) 3.5rem; border-bottom: 1px solid var(--veta); font-size: var(--t-2); }
+  .pasos-lista li::before { content: counter(paso, upper-roman); position: absolute; left: 0; top: var(--e-2); font: 400 var(--t-3)/1 var(--f-inscripcion); color: var(--ocre-texto); }
+  .como { background: var(--marmol); padding: var(--e-2) var(--e-3); border-radius: var(--radio); }
+  .como summary { cursor: pointer; font-weight: 500; }
+</style>

@@ -1,0 +1,55 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { url } from '../../lib/url';
+const vs = (await getCollection('virtudes')).sort((a, b) => a.data.orden - b.data.orden);
+const color: Record<string, string> = { sabiduria: 'var(--azul)', coraje: 'var(--ocre)', justicia: 'var(--malaquita)', templanza: 'var(--piedra-2)' };
+---
+<Base titulo="Las cuatro virtudes" seccion="principios" descripcion="Sabiduría, coraje, justicia y templanza: las cuatro virtudes cardinales del estoicismo.">
+  <section class="envoltura cabeza">
+    <p class="inscripcion">Areté · excelencia del carácter</p>
+    <h1>Cuatro virtudes, un solo gesto</h1>
+    <p class="bajada">Para los estoicos, la virtud es el único bien verdadero. No son cuatro metas separadas: un acto bueno las necesita todas a la vez.</p>
+  </section>
+
+  <figure class="envoltura sistema" aria-labelledby="sis-cap">
+    <svg viewBox="0 0 640 170" role="img" aria-labelledby="sis-cap">
+      {vs.map((v, i) => (
+        <g transform={`translate(${40 + i * 150} 0)`}>
+          <rect x="0" y="30" width="120" height="100" rx="3" fill="var(--marmol)" stroke={color[v.id]} stroke-width="2" />
+          <text x="60" y="72" text-anchor="middle" class="sv-t">{v.data.titulo}</text>
+          <text x="60" y="100" text-anchor="middle" class="sv-p">{v.data.papel}</text>
+          {i < 3 && <path d="M124 80 h22 m-6 -5 l6 5 l-6 5" fill="none" stroke="var(--piedra-2)" stroke-width="1.4" />}
+        </g>
+      ))}
+      <path d="M100 136 C 100 165, 540 165, 540 136" fill="none" stroke="var(--veta)" stroke-dasharray="4 4" />
+    </svg>
+    <figcaption id="sis-cap">La sabiduría <em>ve</em> qué es correcto; el coraje <em>actúa</em> aunque cueste; la justicia <em>orienta</em> la acción hacia los demás; la templanza la <em>sostiene</em> en el tiempo.</figcaption>
+  </figure>
+
+  <div class="envoltura virtudes">
+    {vs.map((v) => (
+      <a href={url(`/virtudes/${v.id}`)} class="v" style={`--c:${color[v.id]}`}>
+        <span class="inscripcion">{v.data.termino}</span>
+        <h2>{v.data.titulo}</h2>
+        <p>{v.data.resumen}</p>
+        <p class="vicio">Su opuesto: {v.data.vicio}</p>
+      </a>
+    ))}
+  </div>
+</Base>
+<style>
+  .cabeza { padding-block: var(--e-4); }
+  .bajada { font-size: var(--t-2); color: var(--piedra-2); max-width: 38rem; }
+  .sistema { margin-block: 0 var(--e-5); }
+  .sistema svg { width: 100%; max-width: 44rem; }
+  .sv-t { font: 500 17px var(--f-display); fill: var(--piedra); }
+  .sv-p { font: 12px var(--f-inscripcion); letter-spacing: .14em; fill: var(--piedra-2); text-transform: uppercase; }
+  .sistema figcaption { max-width: 40rem; color: var(--piedra-2); }
+  .virtudes { display: grid; gap: var(--e-3); }
+  @media (min-width: 48rem) { .virtudes { grid-template-columns: 1fr 1fr; } }
+  .v { display: block; padding: var(--e-3); background: var(--marmol); border-top: 4px solid var(--c); color: var(--piedra); text-decoration: none; border-radius: var(--radio); }
+  .v:hover h2 { color: var(--azul); }
+  .v h2 { font-size: var(--t-4); margin: var(--e-1) 0; }
+  .vicio { color: var(--piedra-2); font-size: .9375rem; margin: 0; }
+</style>

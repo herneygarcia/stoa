@@ -1,0 +1,37 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+const citas = await getCollection('citas');
+const obras = [...new Set(citas.map((c) => `${c.data.autor} — ${c.data.obra}`))].sort();
+---
+<Base titulo="Fuentes y método" descripcion="De dónde viene el contenido de Stoa y cómo se escribe cada caso.">
+  <article class="envoltura texto cuerpo">
+    <p class="inscripcion">Sobre Stoa</p>
+    <h1>Fuentes y método</h1>
+    <p>La <em>stoa</em> era un pórtico. En la Stoa Poikile de Atenas, el «pórtico pintado», Zenón de Citio empezó a enseñar hacia el año 300 a. C. De ahí viene el nombre de la escuela y el de este sitio.</p>
+
+    <h2>Fuentes primarias</h2>
+    <p>Todas las citas vienen de un corpus cerrado, con autor, obra y pasaje exactos. Las traducciones son propias, hechas a partir de ediciones de dominio público; cuando un texto está condensado se marca como paráfrasis.</p>
+    <ul>{obras.map((o) => <li>{o}</li>)}</ul>
+
+    <h2>Lecturas recomendadas</h2>
+    <ul>
+      <li>Pierre Hadot, <em>La ciudadela interior</em> (sobre Marco Aurelio) y <em>Ejercicios espirituales y filosofía antigua</em>.</li>
+      <li>Donald Robertson, <em>Cómo pensar como un emperador romano</em> (estoicismo y terapia cognitiva).</li>
+      <li>Massimo Pigliucci, <em>Cómo ser un estoico</em>.</li>
+      <li>William B. Irvine, <em>El arte de la buena vida</em>.</li>
+      <li>Ryan Holiday, <em>Diario para estoicos</em> (con Stephen Hanselman).</li>
+      <li>Proyecto Modern Stoicism y su «Semana estoica» anual.</li>
+    </ul>
+
+    <h2>Cómo se escribe un caso</h2>
+    <p>Cada caso sigue la misma estructura: la situación, lo que depende de ti y lo que no, la mirada estoica y una pregunta. Hay un banco de casos escritos a mano y, cada mañana, un caso nuevo redactado con ayuda de un modelo de IA. Ese caso solo se publica si pasa el arnés de Stoa: reglas automáticas (longitud, idioma, cita dentro del corpus, derivación a ayuda profesional en temas delicados) y una segunda revisión que evalúa si el principio está bien aplicado. Si no pasa, se publica un caso del banco.</p>
+
+    <h2>Lo que Stoa no es</h2>
+    <p>No es terapia ni consejo médico. El estoicismo inspiró la terapia cognitiva, pero no la reemplaza. Si una emoción te desborda, busca ayuda profesional.</p>
+
+    <h2>Privacidad</h2>
+    <p>Sin cuentas, sin cookies de seguimiento, sin analítica. Tu diario vive en el almacenamiento de tu navegador; puedes exportarlo o borrarlo cuando quieras.</p>
+  </article>
+</Base>
+<style>.cuerpo { padding-top: var(--e-4); } .cuerpo h1 { font-size: var(--t-4); }</style>

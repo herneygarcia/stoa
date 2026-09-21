@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+import Diario from '../islands/Diario';
+import { url } from '../lib/url';
+---
+<Base titulo="Tu diario" seccion="diario" descripcion="Tu diario estoico privado: solo vive en tu dispositivo.">
+  <section class="envoltura cabeza">
+    <p class="inscripcion">Hypomnēmata · cuadernos para uno mismo</p>
+    <h1>Tu diario</h1>
+    <p class="bajada">Marco Aurelio escribió sus <em>Meditaciones</em> para sí mismo, no para publicarlas. Este diario tampoco sale de aquí: vive en este dispositivo y solo tú puedes exportarlo o borrarlo.</p>
+    <p class="fila">
+      <a class="boton sutil" href={url('/practicas/termometro')}>Examinar una emoción</a>
+      <a class="boton sutil" href={url('/practicas/examen-nocturno')}>Examen nocturno</a>
+    </p>
+  </section>
+  <section class="envoltura"><Diario client:only="preact" base={import.meta.env.BASE_URL} /></section>
+</Base>
+<style>
+  .cabeza { padding-block: var(--e-4) var(--e-2); }
+  .bajada { font-size: var(--t-2); color: var(--piedra-2); max-width: 38rem; }
+</style>

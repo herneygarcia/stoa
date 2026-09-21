@@ -1,0 +1,20 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import CasoView from '../../components/CasoView.astro';
+import { url } from '../../lib/url';
+export async function getStaticPaths() {
+  return (await getCollection('casos')).map((c) => ({ params: { slug: c.id.split('/').pop() }, props: { c } }));
+}
+const { c } = Astro.props;
+const etiqueta = c.data.fecha
+  ? `Caso del ${new Intl.DateTimeFormat('es-CO', { timeZone: 'UTC', day: 'numeric', month: 'long', year: 'numeric' }).format(c.data.fecha)}`
+  : 'Caso';
+---
+<Base titulo={c.data.titulo} seccion="casos" descripcion={c.data.situacion.slice(0, 150)}>
+  <div class="envoltura pagina">
+    <p><a href={url('/casos')}>← Todos los casos</a></p>
+    <CasoView caso={c} etiqueta={etiqueta} nivel={1} />
+  </div>
+</Base>
+<style>.pagina { padding-top: var(--e-3); }</style>

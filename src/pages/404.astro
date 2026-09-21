@@ -1,0 +1,12 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../lib/url';
+---
+<Base titulo="Página no encontrada">
+  <section class="envoltura texto cuerpo">
+    <p class="inscripcion">Error 404</p>
+    <h1>Esta página no existe</h1>
+    <p>Lo que se interpone en el camino se convierte en el camino. Vuelve a <a href={url('/')}>la portada</a> o revisa <a href={url('/casos')}>todos los casos</a>.</p>
+  </section>
+</Base>
+<style>.cuerpo { padding-top: var(--e-5); } .cuerpo h1 { font-size: var(--t-4); }</style>

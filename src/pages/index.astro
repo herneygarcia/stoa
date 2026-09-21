@@ -1,0 +1,82 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Reloj from '../components/Reloj.astro';
+import CasoView from '../components/CasoView.astro';
+import { elegirCaso, fechaEnBogota } from '../lib/caso-del-dia';
+import { url } from '../lib/url';
+
+// CA-002.1: el sitio se reconstruye cada día a las 05:00 (Bogotá); el caso se fija en el build.
+const hoy = fechaEnBogota();
+const casos = (await getCollection('casos')).map((c) => ({ ...c, fecha: c.data.fecha }));
+const caso = elegirCaso(hoy, casos);
+const fechaLarga = new Intl.DateTimeFormat('es-CO', { timeZone: 'UTC', weekday: 'long', day: 'numeric', month: 'long' }).format(new Date(`${hoy}T12:00:00Z`));
+const momentos = [
+  { id: 'manana', rotulo: 'Mañana · preparación', frase: 'Antes de salir, mira el día de frente.', practica: 'premeditatio', cta: 'Preparar el día', cita: 'med-2-1' },
+  { id: 'tarde', rotulo: 'Tarde · acción', frase: 'Ahora: lo que depende de ti.', practica: 'circulo-del-control', cta: 'Ordenar lo que me inquieta', cita: 'enq-1' },
+  { id: 'noche', rotulo: 'Noche · examen', frase: 'Repasa el día sin castigo.', practica: 'examen-nocturno', cta: 'Hacer el examen nocturno', cita: 'sen-ira-3-36' },
+];
+---
+<Base titulo="Stoa" seccion="hoy">
+  <section class="portico envoltura">
+    <div class="saludo">
+      <p class="inscripcion">{fechaLarga}</p>
+      <h1>{momentos.map((m) => <span class="momento" data-momento-bloque={m.id}>{m.frase}</span>)}</h1>
+      <p class="bajada">Stoa es un pórtico para practicar la filosofía estoica en la vida diaria: un caso real cada día, ejercicios breves y un diario que solo tú lees.</p>
+      <p class="acciones">
+        {momentos.map((m) => <a class="boton momento" data-momento-bloque={m.id} href={url(`/practicas/${m.practica}`)}>{m.cta}</a>)}
+        <a class="boton sutil" href="#caso">Leer el caso de hoy</a>
+      </p>
+    </div>
+    <Reloj />
+  </section>
+
+  <div class="envoltura"><div class="fresco" role="presentation"></div></div>
+
+  <section id="caso" class="envoltura seccion-caso">
+    <CasoView caso={caso} etiqueta="Caso del día" />
+  </section>
+
+  <section class="envoltura atajo">
+    <p class="inscripcion">Por dónde empezar</p>
+    <div class="rejilla">
+      <a href={url('/principios/dicotomia-del-control')} class="puerta">
+        <span class="n">I</span>
+        <span><strong>Lo que depende de ti.</strong> La idea que sostiene a todas las demás.</span>
+      </a>
+      <a href={url('/practicas/termometro')} class="puerta">
+        <span class="n">II</span>
+        <span><strong>Una emoción que te arrastra.</strong> Sepárala en hecho, juicio y respuesta.</span>
+      </a>
+      <a href={url('/virtudes')} class="puerta">
+        <span class="n">III</span>
+        <span><strong>Las cuatro virtudes.</strong> Sabiduría, coraje, justicia y templanza, como un solo gesto.</span>
+      </a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .portico { display: grid; gap: var(--e-4); align-items: center; padding-block: var(--e-4) var(--e-5); }
+  @media (min-width: 52rem) { .portico { grid-template-columns: 1.1fr 1fr; } }
+  .portico h1 { margin-top: var(--e-2); max-width: 12ch; }
+  .bajada { font-size: var(--t-2); color: var(--piedra-2); max-width: 32rem; }
+  .momento { display: none; }
+  :root:not([data-momento]) .momento[data-momento-bloque="tarde"],
+  :root[data-momento="manana"] .momento[data-momento-bloque="manana"],
+  :root[data-momento="tarde"] .momento[data-momento-bloque="tarde"],
+  :root[data-momento="noche"] .momento[data-momento-bloque="noche"] { display: inline-flex; }
+  h1 .momento { display: none; }
+  :root:not([data-momento]) h1 .momento[data-momento-bloque="tarde"],
+  :root[data-momento="manana"] h1 .momento[data-momento-bloque="manana"],
+  :root[data-momento="tarde"] h1 .momento[data-momento-bloque="tarde"],
+  :root[data-momento="noche"] h1 .momento[data-momento-bloque="noche"] { display: inline; }
+  .acciones { display: flex; flex-wrap: wrap; gap: var(--e-1); }
+  .seccion-caso { padding-top: var(--e-5); }
+  .atajo { margin-top: var(--e-6); }
+  .rejilla { display: grid; gap: 1px; background: var(--veta); border: 1px solid var(--veta); margin-top: var(--e-2); }
+  @media (min-width: 48rem) { .rejilla { grid-template-columns: repeat(3, 1fr); } }
+  .puerta { background: var(--cal); padding: var(--e-3); display: flex; gap: var(--e-2); color: var(--piedra); text-decoration: none; transition: background .2s; }
+  .puerta:hover { background: var(--marmol); }
+  .puerta .n { font: 400 var(--t-4)/1 var(--f-inscripcion); color: var(--ocre-texto); min-width: 2.2ch; }
+</style>

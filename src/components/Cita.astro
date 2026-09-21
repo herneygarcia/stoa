@@ -1,0 +1,24 @@
+---
+import { getEntry } from 'astro:content';
+interface Props { id: string; grande?: boolean }
+const { id, grande = false } = Astro.props;
+const cita = await getEntry('citas', id);
+if (!cita) throw new Error(`Cita "${id}" no está en el corpus`);
+const { texto, autor, obra, referencia, tipo } = cita.data;
+---
+<figure class:list={['cita', { grande }]}>
+  <blockquote><p>{texto}</p></blockquote>
+  <figcaption>
+    <span class="inscripcion">{autor} · {obra} {referencia}</span>
+    <span class="nota">{tipo === 'paráfrasis' ? 'Paráfrasis' : 'Traducción propia'}</span>
+  </figcaption>
+</figure>
+<style>
+  .cita { margin: var(--e-4) 0; padding: 0; }
+  blockquote { margin: 0; font: italic 400 var(--t-2)/1.5 var(--f-display); }
+  .grande blockquote { font-size: clamp(1.35rem, 3.2vw, 1.9rem); line-height: 1.35; }
+  blockquote p::before { content: '«'; } blockquote p::after { content: '»'; }
+  figcaption { margin-top: var(--e-2); display: flex; flex-wrap: wrap; gap: .25rem 1rem; align-items: baseline; }
+  .inscripcion { color: var(--piedra); }
+  .nota { font-size: var(--t-0); color: var(--piedra-2); }
+</style>

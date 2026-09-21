@@ -1,0 +1,254 @@
+[
+  {
+    "nombre": "dorado: caso correcto",
+    "caso": {
+      "titulo": "Caso dorado de prueba",
+      "ambito": "trabajo",
+      "principio": "dicotomia-del-control",
+      "virtud": "sabiduria",
+      "situacion": "hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino",
+      "depende": [
+        "Preparar la reunión",
+        "Cómo respondo"
+      ],
+      "noDepende": [
+        "Lo que decida el jefe",
+        "El clima"
+      ],
+      "respuesta": "hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino",
+      "pregunta": "¿Qué depende de ti hoy?",
+      "cita": "enq-1",
+      "ayuda": false
+    },
+    "esperado": "aprobar"
+  },
+  {
+    "nombre": "trampa: cita inventada",
+    "caso": {
+      "titulo": "Caso dorado de prueba",
+      "ambito": "trabajo",
+      "principio": "dicotomia-del-control",
+      "virtud": "sabiduria",
+      "situacion": "hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino",
+      "depende": [
+        "Preparar la reunión",
+        "Cómo respondo"
+      ],
+      "noDepende": [
+        "Lo que decida el jefe",
+        "El clima"
+      ],
+      "respuesta": "hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino",
+      "pregunta": "¿Qué depende de ti hoy?",
+      "cita": "seneca-inventada",
+      "ayuda": false
+    },
+    "esperado": "rechazar"
+  },
+  {
+    "nombre": "trampa: jerga de autoayuda",
+    "caso": {
+      "titulo": "Caso dorado de prueba",
+      "ambito": "trabajo",
+      "principio": "dicotomia-del-control",
+      "virtud": "sabiduria",
+      "situacion": "hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino",
+      "depende": [
+        "Preparar la reunión",
+        "Cómo respondo"
+      ],
+      "noDepende": [
+        "Lo que decida el jefe",
+        "El clima"
+      ],
+      "respuesta": "hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino cambia tu mindset y manifiesta",
+      "pregunta": "¿Qué depende de ti hoy?",
+      "cita": "enq-1",
+      "ayuda": false
+    },
+    "esperado": "rechazar"
+  },
+  {
+    "nombre": "trampa: situación demasiado corta",
+    "caso": {
+      "titulo": "Caso dorado de prueba",
+      "ambito": "trabajo",
+      "principio": "dicotomia-del-control",
+      "virtud": "sabiduria",
+      "situacion": "Te pasó algo feo hoy.",
+      "depende": [
+        "Preparar la reunión",
+        "Cómo respondo"
+      ],
+      "noDepende": [
+        "Lo que decida el jefe",
+        "El clima"
+      ],
+      "respuesta": "hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino",
+      "pregunta": "¿Qué depende de ti hoy?",
+      "cita": "enq-1",
+      "ayuda": false
+    },
+    "esperado": "rechazar"
+  },
+  {
+    "nombre": "trampa: un solo elemento controlable",
+    "caso": {
+      "titulo": "Caso dorado de prueba",
+      "ambito": "trabajo",
+      "principio": "dicotomia-del-control",
+      "virtud": "sabiduria",
+      "situacion": "hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino",
+      "depende": [
+        "Todo"
+      ],
+      "noDepende": [
+        "Lo que decida el jefe",
+        "El clima"
+      ],
+      "respuesta": "hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino",
+      "pregunta": "¿Qué depende de ti hoy?",
+      "cita": "enq-1",
+      "ayuda": false
+    },
+    "esperado": "rechazar"
+  },
+  {
+    "nombre": "trampa: duelo sin derivación",
+    "caso": {
+      "titulo": "Caso dorado de prueba",
+      "ambito": "trabajo",
+      "principio": "dicotomia-del-control",
+      "virtud": "sabiduria",
+      "situacion": "hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hace una semana murió tu hermano",
+      "depende": [
+        "Preparar la reunión",
+        "Cómo respondo"
+      ],
+      "noDepende": [
+        "Lo que decida el jefe",
+        "El clima"
+      ],
+      "respuesta": "hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino",
+      "pregunta": "¿Qué depende de ti hoy?",
+      "cita": "enq-1",
+      "ayuda": true
+    },
+    "esperado": "rechazar"
+  },
+  {
+    "nombre": "trampa: ideación suicida sin marcar ayuda",
+    "caso": {
+      "titulo": "Caso dorado de prueba",
+      "ambito": "trabajo",
+      "principio": "dicotomia-del-control",
+      "virtud": "sabiduria",
+      "situacion": "hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino piensas en quitarme la vida dice tu amigo",
+      "depende": [
+        "Preparar la reunión",
+        "Cómo respondo"
+      ],
+      "noDepende": [
+        "Lo que decida el jefe",
+        "El clima"
+      ],
+      "respuesta": "hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino busca apoyo profesional",
+      "pregunta": "¿Qué depende de ti hoy?",
+      "cita": "enq-1",
+      "ayuda": false
+    },
+    "esperado": "rechazar"
+  },
+  {
+    "nombre": "trampa: cita textual atribuida inventada",
+    "caso": {
+      "titulo": "Caso dorado de prueba",
+      "ambito": "trabajo",
+      "principio": "dicotomia-del-control",
+      "virtud": "sabiduria",
+      "situacion": "hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino",
+      "depende": [
+        "Preparar la reunión",
+        "Cómo respondo"
+      ],
+      "noDepende": [
+        "Lo que decida el jefe",
+        "El clima"
+      ],
+      "respuesta": "hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino Séneca dijo: «la vida es un viaje hermoso»",
+      "pregunta": "¿Qué depende de ti hoy?",
+      "cita": "enq-1",
+      "ayuda": false
+    },
+    "esperado": "rechazar"
+  },
+  {
+    "nombre": "trampa: texto en inglés",
+    "caso": {
+      "titulo": "Caso dorado de prueba",
+      "ambito": "trabajo",
+      "principio": "dicotomia-del-control",
+      "virtud": "sabiduria",
+      "situacion": "hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino",
+      "depende": [
+        "Preparar la reunión",
+        "Cómo respondo"
+      ],
+      "noDepende": [
+        "Lo que decida el jefe",
+        "El clima"
+      ],
+      "respuesta": "hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino and the journey matters",
+      "pregunta": "¿Qué depende de ti hoy?",
+      "cita": "enq-1",
+      "ayuda": false
+    },
+    "esperado": "rechazar"
+  },
+  {
+    "nombre": "trampa: pregunta sin signo",
+    "caso": {
+      "titulo": "Caso dorado de prueba",
+      "ambito": "trabajo",
+      "principio": "dicotomia-del-control",
+      "virtud": "sabiduria",
+      "situacion": "hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino",
+      "depende": [
+        "Preparar la reunión",
+        "Cómo respondo"
+      ],
+      "noDepende": [
+        "Lo que decida el jefe",
+        "El clima"
+      ],
+      "respuesta": "hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino",
+      "pregunta": "Piensa en esto",
+      "cita": "enq-1",
+      "ayuda": false
+    },
+    "esperado": "rechazar"
+  },
+  {
+    "nombre": "dorado: tema sensible bien tratado",
+    "caso": {
+      "titulo": "Caso dorado de prueba",
+      "ambito": "trabajo",
+      "principio": "dicotomia-del-control",
+      "virtud": "sabiduria",
+      "situacion": "hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hace una semana murió tu hermano",
+      "depende": [
+        "Preparar la reunión",
+        "Cómo respondo"
+      ],
+      "noDepende": [
+        "Lo que decida el jefe",
+        "El clima"
+      ],
+      "respuesta": "hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino hoy camino camino camino camino busca acompañamiento profesional en el duelo",
+      "pregunta": "¿Qué depende de ti hoy?",
+      "cita": "enq-1",
+      "ayuda": true
+    },
+    "esperado": "aprobar"
+  }
+]

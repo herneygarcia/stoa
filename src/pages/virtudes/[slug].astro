@@ -1,0 +1,34 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Cita from '../../components/Cita.astro';
+import { url } from '../../lib/url';
+export async function getStaticPaths() {
+  return (await getCollection('virtudes')).map((v) => ({ params: { slug: v.id }, props: { v } }));
+}
+const { v } = Astro.props;
+const { Content } = await render(v);
+const casos = (await getCollection('casos')).filter((c) => c.data.virtud === v.id && !c.data.fecha).slice(0, 5);
+---
+<Base titulo={v.data.titulo} seccion="principios" descripcion={v.data.resumen}>
+  <article class="envoltura">
+    <header class="cabeza">
+      <p class="inscripcion"><a href={url('/virtudes')}>Virtudes</a> · {v.data.termino}</p>
+      <h1>{v.data.titulo}</h1>
+      <p class="resumen">{v.data.resumen}</p>
+    </header>
+    <div class="texto"><Content /></div>
+    <div class="ejemplo texto"><p class="inscripcion">Ejemplo práctico</p><p>{v.data.ejemplo}</p><p class="nota">Su opuesto: {v.data.vicio}.</p></div>
+    {v.data.citas.map((c) => <div class="texto"><Cita id={c} /></div>)}
+    <section class="texto casos">
+      <p class="inscripcion">Casos para practicarla</p>
+      <ul>{casos.map((c) => <li><a href={url(`/casos/${c.id.split('/').pop()}`)}>{c.data.titulo}</a></li>)}</ul>
+    </section>
+  </article>
+</Base>
+<style>
+  .cabeza { padding-block: var(--e-4) var(--e-2); max-width: 46rem; }
+  .resumen { font-size: var(--t-2); border-left: 3px solid var(--ocre); padding-left: var(--e-2); }
+  .ejemplo { background: var(--marmol); padding: var(--e-3); border-radius: var(--radio); margin-top: var(--e-3); }
+  .casos { margin-top: var(--e-4); }
+</style>

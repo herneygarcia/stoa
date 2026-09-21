@@ -1,0 +1,85 @@
+---
+import '../styles/global.css';
+import { url } from '../lib/url';
+
+interface Props { titulo: string; descripcion?: string; seccion?: 'hoy' | 'principios' | 'practicas' | 'casos' | 'diario' }
+const { titulo, descripcion = 'Filosofía estoica para la vida diaria: un caso real cada día, prácticas y un diario privado.', seccion } = Astro.props;
+const nav = [
+  { id: 'hoy', href: '/', texto: 'Hoy' },
+  { id: 'principios', href: '/principios', texto: 'Principios' },
+  { id: 'practicas', href: '/practicas', texto: 'Prácticas' },
+  { id: 'casos', href: '/casos', texto: 'Casos' },
+  { id: 'diario', href: '/diario', texto: 'Diario' },
+];
+const tituloCompleto = titulo === 'Stoa' ? 'Stoa · estoicismo para cada día' : `${titulo} · Stoa`;
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{tituloCompleto}</title>
+    <meta name="description" content={descripcion} />
+    <meta name="theme-color" content="#E4E6DF" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#161A1F" media="(prefers-color-scheme: dark)" />
+    <script is:inline>
+      // Momento del día (Bogotá) antes de pintar, para que la portada no parpadee.
+      try { const h = +new Intl.DateTimeFormat('en-GB', { timeZone: 'America/Bogota', hour: 'numeric', hourCycle: 'h23' }).format(new Date());
+        document.documentElement.dataset.momento = h >= 5 && h < 12 ? 'manana' : h >= 12 && h < 18 ? 'tarde' : 'noche'; } catch {}
+    </script>
+    <link rel="manifest" href={url('/manifest.webmanifest')} />
+    <link rel="icon" href={url('/icono.svg')} type="image/svg+xml" />
+    <link rel="apple-touch-icon" href={url('/icono-192.png')} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Marcellus+SC&family=Piazzolla:ital,opsz,wght@0,8..30,400;0,8..30,500;1,8..30,400&display=swap" />
+  </head>
+  <body data-base={import.meta.env.BASE_URL}>
+    <a class="visualmente-oculto saltar" href="#contenido">Ir al contenido</a>
+    <header class="cabecera envoltura">
+      <a class="marca" href={url('/')} aria-label="Stoa, inicio">
+        <svg viewBox="0 0 24 32" width="18" height="24" aria-hidden="true"><path d="M2 3h20M4 6h16M6 6v21M10 6v21M14 6v21M18 6v21M3 27h18M1 30h22" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg>
+        <span>Stoa</span>
+      </a>
+      <nav aria-label="Principal">
+        <ul>
+          {nav.map((n) => (
+            <li><a href={url(n.href)} aria-current={seccion === n.id ? 'page' : undefined}>{n.texto}</a></li>
+          ))}
+        </ul>
+      </nav>
+    </header>
+    <main id="contenido"><slot /></main>
+    <footer class="pie">
+      <div class="envoltura pie-rejilla">
+        <div>
+          <p class="inscripcion">Stoa · στοά · el pórtico</p>
+          <p>Lo que escribes aquí se queda en tu dispositivo. Sin cuentas, sin rastreadores.</p>
+          <p><a href={url('/sobre')}>Fuentes, método y créditos</a></p>
+        </div>
+        <div class="ayuda" id="lineas-de-ayuda">
+          <p class="inscripcion">Si lo estás pasando muy mal</p>
+          <p>El estoicismo acompaña; no reemplaza la ayuda profesional. En Colombia puedes llamar a la <strong>Línea 106</strong> (Bogotá) o a la <strong>Línea 192, opción 4</strong> (salud mental, todo el país). En una emergencia, al <strong>123</strong>.</p>
+        </div>
+      </div>
+    </footer>
+    <script is:inline define:vars={{ base: import.meta.env.BASE_URL, prod: import.meta.env.PROD }}>
+      if (prod && 'serviceWorker' in navigator) navigator.serviceWorker.register(base.replace(/\/$/, '') + '/sw.js');
+    </script>
+  </body>
+</html>
+
+<style>
+  .saltar:focus { position: fixed !important; top: 1rem; left: 1rem; width: auto; height: auto; clip: auto; background: var(--marmol); padding: .5rem 1rem; z-index: 10; }
+  .cabecera { display: flex; align-items: center; justify-content: space-between; gap: var(--e-2); padding-block: var(--e-2); flex-wrap: wrap; }
+  .marca { display: inline-flex; align-items: center; gap: .55rem; color: var(--piedra); text-decoration: none; font: 500 1.35rem/1 var(--f-display); letter-spacing: .01em; }
+  nav ul { list-style: none; display: flex; gap: clamp(.25rem, 2vw, 1.5rem); margin: 0; padding: 0; flex-wrap: wrap; }
+  nav a { color: var(--piedra-2); text-decoration: none; padding: .35rem .2rem; font-weight: 500; border-bottom: 2px solid transparent; }
+  nav a:hover { color: var(--piedra); }
+  nav a[aria-current="page"] { color: var(--piedra); border-bottom-color: var(--ocre); }
+  .pie { margin-top: var(--e-6); padding-block: var(--e-4); background: var(--cal-2); border-top: 1px solid var(--veta); font-size: .9375rem; }
+  .pie-rejilla { display: grid; gap: var(--e-4); grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
+  .pie p { max-width: 34rem; color: var(--piedra-2); }
+  .ayuda strong { color: var(--piedra); }
+  @media (max-width: 30rem) { nav ul { gap: .1rem .7rem; } nav a { font-size: .9375rem; } }
+</style>

@@ -1,0 +1,80 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getEntry } from 'astro:content';
+import Cita from './Cita.astro';
+import LlevarAlDiario from '../islands/LlevarAlDiario';
+import { url } from '../lib/url';
+
+interface Props { caso: CollectionEntry<'casos'>; etiqueta: string; nivel?: 1 | 2 }
+const { caso, etiqueta, nivel = 2 } = Astro.props;
+const c = caso.data;
+const principio = await getEntry('principios', c.principio);
+const virtud = await getEntry('virtudes', c.virtud);
+const Titulo = nivel === 1 ? 'h1' : 'h2';
+---
+<article class="caso">
+  <p class="inscripcion">{etiqueta} · {c.ambito}</p>
+  <Titulo class="titulo">{c.titulo}</Titulo>
+  <p class="situacion">{c.situacion}</p>
+
+  <figure class="control" aria-label="Lo que depende de ti y lo que no">
+    <div class="fuera">
+      <p class="rotulo">No depende de ti</p>
+      <ul>{c.noDepende.map((x) => <li>{x}</li>)}</ul>
+    </div>
+    <div class="dentro">
+      <p class="rotulo">Depende de ti</p>
+      <ul>{c.depende.map((x) => <li>{x}</li>)}</ul>
+    </div>
+  </figure>
+
+  <div class="mirada texto">
+    <h3>La mirada estoica</h3>
+    <p>{c.respuesta}</p>
+    {c.ayuda && (
+      <p class="aviso">Este tema puede doler de verdad. Si te desborda, busca apoyo profesional: <a href="#lineas-de-ayuda">líneas de ayuda</a>.</p>
+    )}
+  </div>
+
+  <Cita id={c.cita} />
+
+  <div class="pregunta">
+    <p class="inscripcion">Para ti</p>
+    <p class="texto-pregunta">{c.pregunta}</p>
+    <LlevarAlDiario client:idle pregunta={c.pregunta} titulo={c.titulo} base={import.meta.env.BASE_URL} />
+  </div>
+
+  <p class="enlaces">
+    Principio: <a href={url(`/principios/${principio?.id}`)}>{principio?.data.titulo}</a>
+    <span aria-hidden="true">·</span>
+    Virtud: <a href={url(`/virtudes/${virtud?.id}`)}>{virtud?.data.titulo}</a>
+    {c.origen === 'ia' && <><span aria-hidden="true">·</span> <span class="ia">Redactado con IA y revisado por el arnés de Stoa</span></>}
+  </p>
+</article>
+
+<style>
+  .caso { max-width: 46rem; }
+  .titulo { font-size: clamp(2rem, 5vw, 3.1rem); font-weight: 400; margin-top: var(--e-1); }
+  .situacion { font-size: var(--t-2); line-height: 1.6; max-width: var(--ancho-texto); }
+
+  /* El círculo del control, dibujado: lo de dentro en malaquita, lo de fuera en la piedra */
+  .control { margin: var(--e-4) 0; display: grid; grid-template-columns: 1fr; gap: var(--e-2); }
+  .control ul { list-style: none; padding: 0; margin: 0; display: grid; gap: .5rem; }
+  .rotulo { font: 400 var(--t-0)/1 var(--f-inscripcion); letter-spacing: .14em; text-transform: uppercase; margin-bottom: var(--e-2); }
+  .fuera { border: 1px dashed var(--veta); padding: var(--e-3); color: var(--piedra-2); border-radius: var(--radio); }
+  .fuera li::before { content: '○ '; color: var(--veta); }
+  .dentro { border: 2px solid var(--malaquita); padding: var(--e-3); border-radius: 999px 999px 999px 999px / 60% 60% 60% 60%; background: color-mix(in srgb, var(--malaquita) 7%, transparent); text-align: center; }
+  .dentro .rotulo { color: var(--malaquita); }
+  .dentro li { font-weight: 500; }
+  @media (min-width: 44rem) {
+    .control { grid-template-columns: 1fr auto; align-items: center; gap: var(--e-3); padding: var(--e-3); border: 1px dashed var(--veta); border-radius: var(--radio); }
+    .fuera { border: 0; padding: 0; }
+    .dentro { width: 20rem; aspect-ratio: 1; border-radius: 50%; display: flex; flex-direction: column; justify-content: center; padding: var(--e-4); }
+  }
+  .mirada h3 { font-size: var(--t-3); }
+  .aviso { font-size: .9375rem; background: var(--ocre-suave); padding: var(--e-2); border-radius: var(--radio); }
+  .pregunta { margin-top: var(--e-4); padding: var(--e-3) 0; border-top: 1px solid var(--veta); border-bottom: 1px solid var(--veta); }
+  .texto-pregunta { font: 400 clamp(1.4rem, 3.5vw, 1.9rem)/1.3 var(--f-display); max-width: 34rem; }
+  .enlaces { margin-top: var(--e-3); color: var(--piedra-2); font-size: .9375rem; display: flex; flex-wrap: wrap; gap: .4rem; }
+  .ia { font-style: italic; }
+</style>

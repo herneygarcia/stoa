@@ -1,0 +1,48 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { url } from '../../lib/url';
+const ps = (await getCollection('practicas')).sort((a, b) => a.data.orden - b.data.orden);
+const grupos = [
+  { id: 'mañana', t: 'Al empezar el día' },
+  { id: 'cualquiera', t: 'Cuando haga falta' },
+  { id: 'noche', t: 'Al cerrar el día' },
+] as const;
+---
+<Base titulo="Prácticas" seccion="practicas" descripcion="Ejercicios estoicos breves para la mañana, el día y la noche.">
+  <section class="envoltura cabeza">
+    <p class="inscripcion">Askesis · entrenamiento</p>
+    <h1>La filosofía se entrena</h1>
+    <p class="bajada">Musonio Rufo comparaba la virtud con la medicina o la música: no basta con entenderla, hay que ejercitarla. Estas prácticas duran entre uno y diez minutos.</p>
+  </section>
+  {grupos.map((g) => (
+    <section class="envoltura grupo">
+      <h2>{g.t}</h2>
+      <ul>
+        {ps.filter((p) => p.data.momento === g.id).map((p) => (
+          <li>
+            <a href={url(`/practicas/${p.id}`)}>
+              <span class="t">{p.data.titulo}{p.data.interactiva && <span class="inter">interactiva</span>}</span>
+              <span class="r">{p.data.resumen}</span>
+              <span class="inscripcion">{p.data.duracionMin} min</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+</Base>
+<style>
+  .cabeza { padding-block: var(--e-4); }
+  .bajada { font-size: var(--t-2); color: var(--piedra-2); max-width: 38rem; }
+  .grupo { margin-top: var(--e-4); }
+  .grupo h2 { font-size: var(--t-3); }
+  ul { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--veta); }
+  li { border-bottom: 1px solid var(--veta); }
+  a { display: grid; gap: .25rem var(--e-3); padding: var(--e-2) 0; color: var(--piedra); text-decoration: none; }
+  @media (min-width: 48rem) { a { grid-template-columns: 16rem 1fr 4rem; align-items: baseline; } }
+  a:hover .t { color: var(--azul); }
+  .t { font: 500 var(--t-2) var(--f-display); }
+  .inter { font: 600 .6875rem var(--f-texto); letter-spacing: .06em; text-transform: uppercase; color: var(--malaquita); border: 1px solid currentColor; border-radius: 999px; padding: .1rem .45rem; margin-left: .5rem; vertical-align: middle; }
+  .r { color: var(--piedra-2); }
+</style>

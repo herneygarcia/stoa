@@ -1,0 +1,55 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { url } from '../../lib/url';
+import { AMBITOS } from '../../lib/schemas';
+import { fechaEnBogota } from '../../lib/caso-del-dia';
+
+const hoy = fechaEnBogota();
+const todos = await getCollection('casos');
+// CA-002.6: los diarios anteriores, del más reciente al más antiguo (nunca del futuro).
+const diarios = todos.filter((c) => c.data.fecha && c.data.fecha.toISOString().slice(0, 10) <= hoy)
+  .sort((a, b) => +b.data.fecha! - +a.data.fecha!);
+const banco = todos.filter((c) => !c.data.fecha);
+const slug = (id: string) => id.split('/').pop();
+const nombre: Record<string, string> = { trabajo: 'Trabajo', familia: 'Familia', pareja: 'Pareja', amistad: 'Amistad', dinero: 'Dinero', salud: 'Salud', estudio: 'Estudio', redes: 'Redes y pantallas', ciudad: 'La ciudad' };
+const fmt = (d: Date) => new Intl.DateTimeFormat('es-CO', { timeZone: 'UTC', day: 'numeric', month: 'short', year: 'numeric' }).format(d);
+---
+<Base titulo="Casos de la vida real" seccion="casos" descripcion="Situaciones cotidianas vistas con ojos estoicos: trabajo, familia, dinero, salud, redes y más.">
+  <section class="envoltura cabeza">
+    <p class="inscripcion">{banco.length + diarios.length} casos</p>
+    <h1>Casos de la vida real</h1>
+    <p class="bajada">Situaciones de todos los días, separadas en lo que depende de ti y lo que no. Cada mañana se publica uno nuevo.</p>
+  </section>
+
+  {diarios.length > 0 && (
+    <section class="envoltura bloque">
+      <h2>Publicados cada día</h2>
+      <ul class="lista">{diarios.map((c) => <li><span class="inscripcion">{fmt(c.data.fecha!)}</span><a href={url(`/casos/${slug(c.id)}`)}>{c.data.titulo}</a></li>)}</ul>
+    </section>
+  )}
+
+  <section class="envoltura bloque">
+    <h2>Por ámbito de la vida</h2>
+    <nav class="indice" aria-label="Ámbitos">{AMBITOS.map((a) => <a href={`#${a}`}>{nombre[a]}</a>)}</nav>
+    {AMBITOS.map((a) => (
+      <section id={a} class="ambito">
+        <h3>{nombre[a]}</h3>
+        <ul class="lista">{banco.filter((c) => c.data.ambito === a).map((c) => <li><a href={url(`/casos/${slug(c.id)}`)}>{c.data.titulo}</a></li>)}</ul>
+      </section>
+    ))}
+  </section>
+</Base>
+<style>
+  .cabeza { padding-block: var(--e-4); }
+  .bajada { font-size: var(--t-2); color: var(--piedra-2); max-width: 38rem; }
+  .bloque { margin-top: var(--e-4); }
+  .indice { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: var(--e-3); }
+  .indice a { border: 1px solid var(--veta); border-radius: 999px; padding: .35rem .8rem; text-decoration: none; color: var(--piedra); font-weight: 500; }
+  .indice a:hover { border-color: var(--piedra); }
+  .ambito { margin-top: var(--e-4); scroll-margin-top: var(--e-3); }
+  .lista { list-style: none; padding: 0; margin: 0; columns: 20rem auto; column-gap: var(--e-4); }
+  .lista li { break-inside: avoid; padding: .55rem 0; border-bottom: 1px solid var(--veta); display: flex; gap: var(--e-2); align-items: baseline; }
+  .lista a { color: var(--piedra); text-decoration: none; font: 400 var(--t-2) var(--f-display); }
+  .lista a:hover { color: var(--azul); text-decoration: underline; }
+</style>

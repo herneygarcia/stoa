@@ -1,0 +1,47 @@
+/* Stoa · tokens de diseño.
+   Idea: la Stoa Poikile de Atenas era un pórtico PINTADO. Piedra y cal frías (paz)
+   + pigmentos de fresco antiguos (alegría): azul egipcio, malaquita, ocre. */
+:root {
+  --cal: #E4E6DF;          /* fondo: cal fría, no crema */
+  --cal-2: #D8DBD2;        /* superficies hundidas */
+  --marmol: #F2F3EE;       /* superficies elevadas */
+  --piedra: #23272B;       /* texto */
+  --piedra-2: #545B61;     /* texto secundario */
+  --veta: #B9BEB4;         /* líneas, bordes */
+  --azul: #2C5D8F;         /* azul egipcio: acción, enlaces */
+  --malaquita: #37684B;    /* "depende de mí" */
+  --ocre: #B8861B;         /* sol, alegría, logros */
+  --ocre-texto: #86600F;   /* ocre legible sobre la cal (AA) */
+  --ocre-suave: #EBD9A8;
+  --sombra: rgb(35 39 43 / 0.16);
+  --cielo-dia: #CFDCE3;
+  --cielo-noche: #1E2A38;
+  color-scheme: light;
+
+  --f-display: 'Piazzolla', 'Iowan Old Style', Georgia, serif;
+  --f-texto: 'Figtree', system-ui, sans-serif;
+  --f-inscripcion: 'Marcellus SC', 'Trajan Pro', Georgia, serif;
+
+  --t-0: 0.8125rem; --t-1: 1rem; --t-2: 1.1875rem; --t-3: 1.5rem; --t-4: 2.125rem; --t-5: clamp(2.5rem, 7vw, 4.5rem);
+  --e-1: 0.5rem; --e-2: 1rem; --e-3: 1.5rem; --e-4: 2.5rem; --e-5: 4rem; --e-6: 6rem;
+  --ancho: 68rem; --ancho-texto: 38rem;
+  --radio: 3px;
+  --curva: cubic-bezier(.2,.7,.2,1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --cal: #161A1F; --cal-2: #1D2228; --marmol: #232930;
+    --piedra: #DDE1DA; --piedra-2: #A3AAA6; --veta: #39414A;
+    --azul: #8DB4DE; --malaquita: #8CC3A0; --ocre: #E2B653; --ocre-texto: #E2B653; --ocre-suave: #4A3F22;
+    --sombra: rgb(0 0 0 / 0.35); --cielo-dia: #2A3A47; --cielo-noche: #0E141B;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --cal: #161A1F; --cal-2: #1D2228; --marmol: #232930;
+  --piedra: #DDE1DA; --piedra-2: #A3AAA6; --veta: #39414A;
+  --azul: #8DB4DE; --malaquita: #8CC3A0; --ocre: #E2B653; --ocre-texto: #E2B653; --ocre-suave: #4A3F22;
+  --sombra: rgb(0 0 0 / 0.35); --cielo-dia: #2A3A47; --cielo-noche: #0E141B;
+  color-scheme: dark;
+}

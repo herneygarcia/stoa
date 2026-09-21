@@ -1,0 +1,106 @@
+---
+// Firma visual: el pórtico como reloj de sol. La sombra de la columna cae sobre las
+// líneas horarias según la hora real en Bogotá. De noche no hay sombra: es la hora del examen.
+import { romano } from '../lib/url';
+
+const CX = 200, CY = 226, RX = 184, RY = 36;
+const horas = Array.from({ length: 13 }, (_, i) => i + 6); // VI … XVIII
+const punto = (h: number, k = 1) => {
+  const phi = (Math.PI * (h - 6)) / 12;
+  return { x: CX + RX * k * Math.cos(phi), y: CY - RY * k * Math.sin(phi) };
+};
+---
+<figure class="reloj" data-reloj aria-label="Reloj de sol: la sombra de la columna indica la hora en Bogotá">
+  <svg viewBox="-24 0 448 280" role="img" aria-hidden="true">
+    <defs>
+      <linearGradient id="fuste" x1="0" x2="1">
+        <stop offset="0" stop-color="var(--marmol)" />
+        <stop offset=".55" stop-color="var(--marmol)" />
+        <stop offset="1" stop-color="var(--cal-2)" />
+      </linearGradient>
+    </defs>
+
+    <!-- astro: sol (día) / luna (noche) -->
+    <circle data-sol r="11" cx="60" cy="70" fill="var(--ocre)" />
+    <path data-luna d="M338 42a16 16 0 1 0 12 26a13 13 0 1 1 -12 -26z" fill="var(--ocre)" opacity="0" />
+
+    <!-- suelo: plano del reloj con sus líneas horarias -->
+    <ellipse cx={CX} cy={CY} rx={RX} ry={RY} fill="var(--cal-2)" stroke="var(--veta)" />
+    {horas.map((h) => {
+      const p = punto(h, 1);
+      const l = punto(h, 1.13);
+      return (
+        <g>
+          <line x1={CX} y1={CY} x2={p.x} y2={p.y} stroke="var(--veta)" stroke-width={h === 12 ? 1.4 : 0.8} />
+          <text x={l.x} y={l.y + 4} text-anchor="middle" class="hora" data-h={h}>{romano(h > 12 ? h - 12 : h)}</text>
+        </g>
+      );
+    })}
+
+    <!-- sombra -->
+    <polygon data-sombra points={`${CX - 11},${CY} ${CX + 11},${CY} ${CX + 150},${CY - 8}`} fill="var(--piedra)" opacity=".22" />
+
+    <!-- columna dórica -->
+    <g stroke="var(--piedra)" stroke-width="1.4" stroke-linejoin="round">
+      <rect x={CX - 26} y="52" width="52" height="9" fill="var(--marmol)" />
+      <path d={`M${CX - 21} 61 h42 l-5 10 h-32 z`} fill="var(--marmol)" />
+      <path d={`M${CX - 16} 71 L${CX - 14} ${CY - 6} H${CX + 14} L${CX + 16} 71 Z`} fill="url(#fuste)" />
+      <path d={`M${CX - 7} 74 L${CX - 6} ${CY - 8} M${CX} 74 V${CY - 8} M${CX + 7} 74 L${CX + 6} ${CY - 8}`} stroke-width=".7" opacity=".5" />
+      <rect x={CX - 20} y={CY - 7} width="40" height="7" fill="var(--marmol)" />
+    </g>
+  </svg>
+  <figcaption class="inscripcion"><span data-hora-texto>Bogotá</span></figcaption>
+</figure>
+
+<style>
+  .reloj { margin: 0; }
+  .reloj svg { width: 100%; height: auto; overflow: visible; }
+  .hora { font: 11px var(--f-inscripcion); fill: var(--piedra-2); letter-spacing: .06em; }
+  .hora.actual { fill: var(--ocre-texto); font-weight: 700; }
+  [data-sombra], [data-sol], [data-luna] { transition: all 1.2s var(--curva); }
+  figcaption { text-align: center; margin-top: .25rem; }
+</style>
+
+<script>
+  const CX = 200, CY = 226, RX = 184, RY = 36;
+
+  function horaBogota(d = new Date()) {
+    const partes = new Intl.DateTimeFormat('en-GB', { timeZone: 'America/Bogota', hour: 'numeric', minute: 'numeric', hourCycle: 'h23' }).formatToParts(d);
+    const v = (t: string) => Number(partes.find((p) => p.type === t)?.value ?? 0);
+    return v('hour') + v('minute') / 60;
+  }
+
+  function pintar(reloj: HTMLElement) {
+    const h = horaBogota();
+    const dia = h >= 6 && h < 18;
+    const sombra = reloj.querySelector<SVGPolygonElement>('[data-sombra]')!;
+    const sol = reloj.querySelector<SVGCircleElement>('[data-sol]')!;
+    const luna = reloj.querySelector<SVGPathElement>('[data-luna]')!;
+    const phi = (Math.PI * (h - 6)) / 12;
+    // Sombra más larga al amanecer y al atardecer, corta al mediodía (Bogotá está casi en el ecuador).
+    const k = 0.28 + 0.72 * Math.abs(Math.cos(phi));
+    // Coordenadas en el plano del suelo (u, v) → pantalla. La sombra es un trapecio: ancho de la columna en la base.
+    const pant = (u: number, v: number) => `${(CX + RX * u).toFixed(1)},${(CY - RY * v).toFixed(1)}`;
+    const [du, dv] = [Math.cos(phi), Math.sin(phi)];
+    const [pu, pv] = [-dv, du];
+    const w = 0.075;
+    sombra.setAttribute('points', [
+      pant(w * pu, w * pv), pant(k * du + w * 0.7 * pu, k * dv + w * 0.7 * pv),
+      pant(k * du - w * 0.7 * pu, k * dv - w * 0.7 * pv), pant(-w * pu, -w * pv),
+    ].join(' '));
+    sombra.style.opacity = dia ? '0.28' : '0';
+    sol.setAttribute('cx', String(CX - Math.cos(phi) * 170));
+    sol.setAttribute('cy', String(150 - Math.sin(phi) * 125));
+    sol.style.opacity = dia ? '1' : '0';
+    luna.style.opacity = dia ? '0' : '1';
+    reloj.querySelectorAll('.hora').forEach((t) => t.classList.toggle('actual', dia && Number(t.getAttribute('data-h')) === Math.round(h)));
+    const hh = Math.floor(h), mm = Math.round((h - hh) * 60);
+    reloj.querySelector('[data-hora-texto]')!.textContent = `Bogotá · ${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}`;
+    document.documentElement.dataset.momento = h >= 5 && h < 12 ? 'manana' : h >= 12 && h < 18 ? 'tarde' : 'noche';
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-reloj]').forEach((r) => {
+    pintar(r);
+    setInterval(() => pintar(r), 60_000);
+  });
+</script>

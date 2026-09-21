@@ -1,0 +1,58 @@
+@import './tokens.css';
+@import './islas.css';
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--cal); color: var(--piedra);
+  font: 400 var(--t-1)/1.6 var(--f-texto);
+  /* textura de cal: ruido muy sutil, sin imágenes */
+  background-image: radial-gradient(rgb(0 0 0 / 0.025) 1px, transparent 1px);
+  background-size: 3px 3px;
+  min-height: 100vh; display: flex; flex-direction: column;
+}
+main { flex: 1; }
+img, svg { max-width: 100%; display: block; }
+a { color: var(--azul); text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 2px solid var(--azul); outline-offset: 3px; border-radius: 2px; }
+::selection { background: var(--ocre-suave); }
+
+h1, h2, h3 { font-family: var(--f-display); font-weight: 500; line-height: 1.12; margin: 0 0 var(--e-2); letter-spacing: -0.01em; }
+h1 { font-size: var(--t-5); font-weight: 400; }
+h2 { font-size: var(--t-4); }
+h3 { font-size: var(--t-3); }
+p { margin: 0 0 var(--e-2); }
+
+.envoltura { width: min(100% - 2rem, var(--ancho)); margin-inline: auto; }
+.texto { max-width: var(--ancho-texto); }
+.texto h2 { font-size: var(--t-3); margin-top: var(--e-4); }
+.texto blockquote { margin: var(--e-3) 0; padding-left: var(--e-2); border-left: 3px solid var(--ocre); color: var(--piedra-2); }
+.texto ul, .texto ol { padding-left: 1.2em; }
+.texto li { margin-bottom: 0.4em; }
+
+/* Inscripción: lo que en la piedra estaría cincelado (referencias, fechas, rótulos) */
+.inscripcion { font-family: var(--f-inscripcion); letter-spacing: 0.14em; font-size: var(--t-0); color: var(--piedra-2); text-transform: uppercase; }
+
+/* Franja de fresco: pigmentos pintados, el único gesto "decorativo" que se repite */
+.fresco { height: 6px; background: linear-gradient(90deg, var(--azul) 0 40%, var(--ocre) 40% 58%, var(--malaquita) 58% 100%); border-radius: 1px; }
+
+.boton {
+  display: inline-flex; align-items: center; gap: 0.5em; cursor: pointer;
+  font: 500 var(--t-1)/1 var(--f-texto); padding: 0.8em 1.2em; border-radius: var(--radio);
+  border: 1px solid var(--piedra); background: var(--piedra); color: var(--cal); text-decoration: none;
+  transition: transform .2s var(--curva), background .2s;
+}
+.boton:hover { transform: translateY(-1px); }
+.boton.sutil { background: transparent; color: var(--piedra); border-color: var(--veta); }
+.boton:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+
+input, textarea, select { font: inherit; color: inherit; background: var(--marmol); border: 1px solid var(--veta); border-radius: var(--radio); padding: 0.7em 0.8em; width: 100%; }
+textarea { min-height: 6rem; resize: vertical; }
+label { font-weight: 500; }
+
+.visualmente-oculto { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}

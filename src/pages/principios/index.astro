@@ -1,0 +1,44 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { url, romano } from '../../lib/url';
+const principios = (await getCollection('principios')).sort((a, b) => a.data.orden - b.data.orden);
+---
+<Base titulo="Principios" seccion="principios" descripcion="Los siete principios del estoicismo, explicados con ejemplos cotidianos y sus fuentes.">
+  <section class="envoltura cabeza">
+    <p class="inscripcion">Siete principios</p>
+    <h1>Lo esencial, en siete piedras</h1>
+    <p class="bajada">Cada principio se lee en menos de cinco minutos. Empieza por el primero: los demás se apoyan en él.</p>
+  </section>
+  <ol class="envoltura lista">
+    {principios.map((p) => (
+      <li>
+        <a href={url(`/principios/${p.id}`)}>
+          <span class="num">{romano(p.data.orden)}</span>
+          <span class="cuerpo">
+            <span class="t">{p.data.titulo}</span>
+            <span class="inscripcion termino">{p.data.termino}</span>
+            <span class="r">{p.data.resumen}</span>
+          </span>
+        </a>
+      </li>
+    ))}
+  </ol>
+  <section class="envoltura otra">
+    <p>Los principios se viven a través de <a href={url('/virtudes')}>las cuatro virtudes cardinales</a> y se entrenan con <a href={url('/practicas')}>prácticas diarias</a>.</p>
+  </section>
+</Base>
+<style>
+  .cabeza { padding-block: var(--e-4); }
+  .bajada { font-size: var(--t-2); color: var(--piedra-2); max-width: 36rem; }
+  .lista { list-style: none; padding: 0; border-top: 1px solid var(--veta); }
+  .lista li { border-bottom: 1px solid var(--veta); }
+  .lista a { display: grid; grid-template-columns: 4.5rem 1fr; gap: var(--e-2); padding: var(--e-3) 0; color: var(--piedra); text-decoration: none; }
+  .lista a:hover .t { color: var(--azul); }
+  .num { font: 400 var(--t-4)/1 var(--f-inscripcion); color: var(--ocre-texto); }
+  .cuerpo { display: grid; gap: .3rem; }
+  .t { font: 400 var(--t-3)/1.15 var(--f-display); transition: color .2s; }
+  .termino { text-transform: none; letter-spacing: .04em; }
+  .r { color: var(--piedra-2); max-width: 40rem; }
+  .otra { margin-top: var(--e-4); font-size: var(--t-2); }
+</style>

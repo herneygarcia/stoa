@@ -1,0 +1,69 @@
+/* Estilos de las islas interactivas (Preact). */
+.fila { display: flex; flex-wrap: wrap; gap: var(--e-1); align-items: center; margin: var(--e-2) 0; }
+.fila input { flex: 1 1 14rem; width: auto; }
+.nota, .ayuda-texto { color: var(--piedra-2); font-size: .9375rem; }
+.grande { font: 400 var(--t-3)/1.3 var(--f-display); }
+.etiqueta { font-weight: 500; margin: var(--e-3) 0 var(--e-1); }
+fieldset { border: 0; padding: 0; margin: 0; }
+legend { font: 400 var(--t-3)/1.3 var(--f-display); margin-bottom: var(--e-2); padding: 0; }
+
+/* Círculo del control */
+.circulo-app { margin-top: var(--e-3); }
+.campo { position: relative; border: 1px dashed var(--veta); border-radius: var(--radio); padding: var(--e-3); min-height: 26rem; display: grid; gap: var(--e-2); align-content: start; }
+.campo ul, .bandeja ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: .5rem; }
+.anillo { border: 2px solid var(--malaquita); border-radius: 50%; aspect-ratio: 1; width: min(100%, 22rem); justify-self: center; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: var(--e-3); text-align: center; background: color-mix(in srgb, var(--malaquita) 8%, transparent); }
+.anillo ul { justify-content: center; }
+.rotulo { font: 400 var(--t-0)/1 var(--f-inscripcion); letter-spacing: .14em; text-transform: uppercase; margin: 0 0 var(--e-1); color: var(--piedra-2); }
+.dentro-r { color: var(--malaquita); }
+.bandeja { margin: var(--e-2) 0; padding: var(--e-2); background: var(--cal-2); border-radius: var(--radio); }
+.chip { background: var(--marmol); border: 1px solid var(--veta); border-radius: 999px; padding: .4rem .5rem .4rem .9rem; display: inline-flex; flex-wrap: wrap; gap: .4rem; align-items: center; cursor: grab; touch-action: none; user-select: none; box-shadow: 0 1px 0 var(--sombra); animation: asentarse .5s var(--curva); }
+.chip.dentro { border-color: var(--malaquita); color: var(--piedra); font-weight: 500; }
+.chip.fuera { color: var(--piedra-2); background: transparent; }
+.chip.volando { cursor: grabbing; box-shadow: 0 10px 24px var(--sombra); z-index: 5; position: relative; animation: none; }
+.chip .acciones { display: inline-flex; gap: .25rem; }
+.chip button { font: 500 .75rem/1 var(--f-texto); border: 0; background: var(--cal-2); color: var(--piedra); border-radius: 999px; padding: .35rem .55rem; cursor: pointer; }
+.chip button:hover { background: var(--ocre-suave); }
+@keyframes asentarse { 0% { transform: translateY(-8px); opacity: .3; } 70% { transform: translateY(1px); } 100% { transform: none; opacity: 1; } }
+.circulo-sintesis strong { color: var(--malaquita); }
+.asentada { color: var(--ocre-texto); font-weight: 600; }
+
+/* Termómetro */
+.pasos { list-style: none; padding: 0; margin: 0 0 var(--e-3); display: flex; gap: var(--e-1); flex-wrap: wrap; counter-reset: p; }
+.pasos li { counter-increment: p; font-size: var(--t-0); color: var(--piedra-2); padding: .3rem .6rem; border-radius: 999px; border: 1px solid var(--veta); }
+.pasos li::before { content: counter(p, upper-roman) ' · '; font-family: var(--f-inscripcion); }
+.pasos li[aria-current] { border-color: var(--piedra); color: var(--piedra); font-weight: 600; }
+.pasos li.hecho { background: var(--cal-2); }
+.opciones { display: flex; flex-wrap: wrap; gap: .5rem; }
+.opcion { border: 1px solid var(--veta); border-radius: 999px; padding: .45rem .9rem; cursor: pointer; font-weight: 500; background: var(--marmol); }
+.opcion.activa { background: var(--piedra); color: var(--cal); border-color: var(--piedra); }
+.opcion:focus-within, .grado:focus-within { outline: 2px solid var(--azul); outline-offset: 2px; }
+.escala { display: flex; gap: 4px; align-items: flex-end; height: 5.5rem; }
+.grado { width: 2.75rem; border: 1px solid var(--veta); border-radius: 3px 3px 0 0; cursor: pointer; display: flex; align-items: flex-end; justify-content: center; padding-bottom: .3rem; background: var(--marmol); font-weight: 600; }
+.grado:nth-child(1) { height: 36%; } .grado:nth-child(2) { height: 52%; } .grado:nth-child(3) { height: 68%; } .grado:nth-child(4) { height: 84%; } .grado:nth-child(5) { height: 100%; }
+.grado.lleno { background: var(--ocre); border-color: var(--ocre); color: #1f1a0e; }
+.peligro { display: flex; gap: .5rem; align-items: center; margin-top: var(--e-3); font-weight: 400; }
+.peligro input { width: auto; }
+.alerta { background: var(--ocre-suave); border-left: 4px solid var(--ocre); padding: var(--e-2); margin: var(--e-2) 0; border-radius: var(--radio); }
+.termo label[for] { display: block; margin-bottom: var(--e-1); }
+
+/* Examen nocturno */
+.pregunta-ex { display: block; font: 400 var(--t-4)/1.15 var(--f-display); margin: var(--e-1) 0; }
+.examen-fin { text-align: center; padding: var(--e-4) 0; }
+.examen-fin .piedra { margin: 0 auto var(--e-2); animation: caer 1s var(--curva); }
+@keyframes caer { 0% { transform: translateY(-40px) rotate(-8deg); opacity: 0; } 60% { transform: translateY(3px) rotate(1deg); opacity: 1; } 100% { transform: none; } }
+
+/* Diario */
+.olivo { margin: 0 0 var(--e-4); }
+.olivo svg { width: min(100%, 30rem); }
+.olivo figcaption { color: var(--piedra-2); font-size: .9375rem; }
+.hoja-nueva { animation: brotar 1.2s var(--curva); transform-box: fill-box; }
+@keyframes brotar { from { opacity: 0; } }
+.entradas { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--e-3); }
+.entrada { position: relative; padding: var(--e-3); background: var(--marmol); border-radius: var(--radio); border-left: 3px solid var(--veta); }
+.entrada.reflexion { border-left-color: var(--azul); } .entrada.circulo { border-left-color: var(--malaquita); } .entrada.termometro { border-left-color: var(--ocre); } .entrada.examen { border-left-color: var(--piedra); }
+.entrada h3 { font-size: var(--t-2); margin-bottom: var(--e-1); }
+.entrada .preg { font: italic var(--t-2)/1.4 var(--f-display); }
+.entrada textarea { margin-bottom: var(--e-1); }
+.borrar { position: absolute; top: var(--e-2); right: var(--e-2); background: none; border: 0; color: var(--piedra-2); cursor: pointer; font: inherit; font-size: var(--t-0); text-decoration: underline; }
+.herramientas { margin-top: var(--e-4); }
+.vacio { font: 400 var(--t-2)/1.5 var(--f-display); }
