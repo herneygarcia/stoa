@@ -15,7 +15,7 @@ const momento = { 'mañana': 'Por la mañana', noche: 'Por la noche', cualquiera
 <Base titulo={p.data.titulo} seccion="practicas" descripcion={p.data.resumen}>
   <article class="envoltura">
     <header class="cabeza">
-      <p class="inscripcion"><a href={url('/practicas')}>Prácticas</a> · {momento} · {p.data.duracionMin} min</p>
+      <p class="inscripcion"><a href={url('/practicas')}>Prácticas</a> — {momento} — {p.data.duracionMin} min</p>
       <h1>{p.data.titulo}</h1>
       <p class="resumen">{p.data.resumen}</p>
     </header>

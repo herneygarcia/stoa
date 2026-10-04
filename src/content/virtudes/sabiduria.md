@@ -1,6 +1,6 @@
 ---
 titulo: Sabiduría
-termino: sophía · phrónēsis
+termino: sophía — phrónēsis
 orden: 1
 resumen: Ver las cosas como son y saber qué es bueno, qué es malo y qué es indiferente.
 vicio: la insensatez (tomar lo aparente por real)

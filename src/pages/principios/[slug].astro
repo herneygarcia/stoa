@@ -16,7 +16,7 @@ const casos = (await getCollection('casos')).filter((c) => c.data.principio === 
 <Base titulo={p.data.titulo} seccion="principios" descripcion={p.data.resumen}>
   <article class="envoltura">
     <header class="cabeza">
-      <p class="inscripcion"><a href={url('/principios')}>Principios</a> · {romano(p.data.orden)}</p>
+      <p class="inscripcion"><a href={url('/principios')}>Principios</a> — {romano(p.data.orden)}</p>
       <h1>{p.data.titulo}</h1>
       <p class="termino">{p.data.termino}</p>
       <p class="resumen">{p.data.resumen}</p>

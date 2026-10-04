@@ -12,7 +12,7 @@ const virtud = await getEntry('virtudes', c.virtud);
 const Titulo = nivel === 1 ? 'h1' : 'h2';
 ---
 <article class="caso">
-  <p class="inscripcion">{etiqueta} · {c.ambito}</p>
+  <p class="inscripcion">{etiqueta} — {c.ambito}</p>
   <Titulo class="titulo">{c.titulo}</Titulo>
   <p class="situacion">{c.situacion}</p>
 
@@ -45,9 +45,9 @@ const Titulo = nivel === 1 ? 'h1' : 'h2';
 
   <p class="enlaces">
     Principio: <a href={url(`/principios/${principio?.id}`)}>{principio?.data.titulo}</a>
-    <span aria-hidden="true">·</span>
+    <span aria-hidden="true">—</span>
     Virtud: <a href={url(`/virtudes/${virtud?.id}`)}>{virtud?.data.titulo}</a>
-    {c.origen === 'ia' && <><span aria-hidden="true">·</span> <span class="ia">Redactado con IA y revisado por el arnés de Stoa</span></>}
+    {c.origen === 'ia' && <><span aria-hidden="true">—</span> <span class="ia">Redactado con IA y revisado por el arnés de Stoa</span></>}
   </p>
 </article>
 

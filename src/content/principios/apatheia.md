@@ -1,6 +1,6 @@
 ---
 titulo: Libertad emocional
-termino: "apátheia · eupátheiai"
+termino: "apátheia — eupátheiai"
 orden: 4
 resumen: No es no sentir. Es no ser arrastrado por pasiones que nacen de juicios falsos, y cultivar emociones sanas.
 ejemplo: "Te llega un mensaje seco de tu jefe y se te acelera el corazón (eso no lo eliges). Lo que sigue sí: '¿me está atacando?' es un juicio; puedes examinarlo antes de responder."

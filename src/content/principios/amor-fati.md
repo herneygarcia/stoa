@@ -1,6 +1,6 @@
 ---
 titulo: Aceptar el destino
-termino: "amor fati · el obstáculo es el camino"
+termino: "amor fati — el obstáculo es el camino"
 orden: 3
 resumen: Querer que las cosas pasen como pasan. No resignarse, sino convertir lo que ocurre en material para crecer.
 ejemplo: "Te cancelan el vuelo. Puedes pasar seis horas furioso en el aeropuerto o usarlas para leer, llamar a alguien o descansar. El vuelo no vuelve; las seis horas sí son tuyas."

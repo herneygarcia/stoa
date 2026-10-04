@@ -13,9 +13,9 @@ const casos = (await getCollection('casos')).map((c) => ({ ...c, fecha: c.data.f
 const caso = elegirCaso(hoy, casos);
 const fechaLarga = new Intl.DateTimeFormat('es-CO', { timeZone: 'UTC', weekday: 'long', day: 'numeric', month: 'long' }).format(new Date(`${hoy}T12:00:00Z`));
 const momentos = [
-  { id: 'manana', rotulo: 'Mañana · preparación', frase: 'Antes de salir, mira el día de frente.', practica: 'premeditatio', cta: 'Preparar el día', cita: 'med-2-1' },
-  { id: 'tarde', rotulo: 'Tarde · acción', frase: 'Ahora: lo que depende de ti.', practica: 'circulo-del-control', cta: 'Ordenar lo que me inquieta', cita: 'enq-1' },
-  { id: 'noche', rotulo: 'Noche · examen', frase: 'Repasa el día sin castigo.', practica: 'examen-nocturno', cta: 'Hacer el examen nocturno', cita: 'sen-ira-3-36' },
+  { id: 'manana', rotulo: 'Mañana — preparación', frase: 'Antes de salir, mira el día de frente.', practica: 'premeditatio', cta: 'Preparar el día', cita: 'med-2-1' },
+  { id: 'tarde', rotulo: 'Tarde — acción', frase: 'Ahora: lo que depende de ti.', practica: 'circulo-del-control', cta: 'Ordenar lo que me inquieta', cita: 'enq-1' },
+  { id: 'noche', rotulo: 'Noche — examen', frase: 'Repasa el día sin castigo.', practica: 'examen-nocturno', cta: 'Hacer el examen nocturno', cita: 'sen-ira-3-36' },
 ];
 ---
 <Base titulo="Stoa" seccion="hoy">

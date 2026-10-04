@@ -1,6 +1,6 @@
 ---
 titulo: La dicotomía del control
-termino: "tà eph' hēmîn · lo que depende de nosotros"
+termino: "tà eph' hēmîn — lo que depende de nosotros"
 orden: 1
 resumen: Algunas cosas dependen de ti y otras no. La serenidad empieza cuando pones tu esfuerzo solo en las primeras.
 ejemplo: "No decides si llueve el día de tu entrevista. Sí decides salir con tiempo, llevar paraguas y cómo saludas al llegar empapado."

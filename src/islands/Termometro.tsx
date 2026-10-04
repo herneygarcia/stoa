@@ -102,7 +102,7 @@ export default function Termometro() {
   const guardar = async () => {
     const { emocion, intensidad, hecho, juicio, cierto, depende } = r;
     const d = await diarioNavegador();
-    await d.guardar({ tipo: 'termometro', titulo: `${emocion} · ${intensidad}/5`, datos: { emocion, intensidad, hecho, juicio, cierto, depende } });
+    await d.guardar({ tipo: 'termometro', titulo: `${emocion} — ${intensidad}/5`, datos: { emocion, intensidad, hecho, juicio, cierto, depende } });
     setGuardado(true);
   };
 

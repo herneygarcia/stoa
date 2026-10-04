@@ -1,6 +1,6 @@
 ---
 titulo: Ciudadanía del mundo
-termino: "kosmopolítēs · oikeíōsis"
+termino: "kosmopolítēs — oikeíōsis"
 orden: 5
 resumen: Somos parte de una sola comunidad humana. Actuar con justicia y generosidad es cuidar el todo del que formamos parte.
 ejemplo: "Ceder el paso, pagar lo justo, no hablar mal de quien no está: pequeños actos de ciudadanía del mundo en una sola mañana."

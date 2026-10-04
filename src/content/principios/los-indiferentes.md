@@ -1,6 +1,6 @@
 ---
 titulo: Los indiferentes
-termino: "adiáphora · proēgména"
+termino: "adiáphora — proēgména"
 orden: 7
 resumen: Salud, dinero y reputación no son buenos ni malos en sí mismos. Importa el uso que haces de ellos.
 ejemplo: "Un ascenso es un 'indiferente preferible': está bien buscarlo. Pero si para conseguirlo tienes que mentir sobre un compañero, has cambiado lo único valioso por algo que no lo es."

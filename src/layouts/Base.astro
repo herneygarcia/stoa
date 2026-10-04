@@ -14,7 +14,7 @@ const nav = [
 ];
 // Momento del día antes de pintar (evita parpadeo). Se insertan las mismas funciones de lib/tiempo: una sola fuente de verdad.
 const momentoInicial = `try{const ZONA=${JSON.stringify(ZONA)};const horaEnColombia=${horaEnColombia};const momentoDelDia=${momentoDelDia};document.documentElement.dataset.momento=momentoDelDia(horaEnColombia())}catch(e){/* sin Intl: se muestra la tarde */}`;
-const tituloCompleto = titulo === 'Stoa' ? 'Stoa · estoicismo para cada día' : `${titulo} · Stoa`;
+const tituloCompleto = titulo === 'Stoa' ? 'Stoa — estoicismo para cada día' : `${titulo} — Stoa`;
 ---
 <!doctype html>
 <html lang="es">
@@ -52,7 +52,7 @@ const tituloCompleto = titulo === 'Stoa' ? 'Stoa · estoicismo para cada día' :
     <footer class="pie">
       <div class="envoltura pie-rejilla">
         <div>
-          <p class="inscripcion">Stoa · στοά · el pórtico</p>
+          <p class="inscripcion">Stoa — στοά — el pórtico</p>
           <p>Lo que escribes aquí se queda en tu dispositivo. Sin cuentas, sin rastreadores.</p>
           <p><a href={url('/sobre')}>Fuentes, método y créditos</a></p>
         </div>
@@ -61,7 +61,7 @@ const tituloCompleto = titulo === 'Stoa' ? 'Stoa · estoicismo para cada día' :
           <p>El estoicismo acompaña pero no reemplaza la ayuda profesional. En Colombia puedes llamar a la <strong>Línea 192, opción 4</strong> (salud mental, todo el país).</p>
         </div>
         <div class="autor">
-          <img src={url('/herney.jpg')} alt="Herney Andrés García Perdomo — Urología oncológica · Epidemiología clínica" width="161" height="64" loading="lazy" />
+          <img src={url('/herney.jpg')} alt="Herney Andrés García Perdomo — Urología oncológica — Epidemiología clínica" width="161" height="64" loading="lazy" />
         </div>
       </div>
     </footer>

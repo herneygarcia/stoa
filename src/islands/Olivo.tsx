@@ -38,7 +38,7 @@ export default function Olivo({ dias }: { dias: string[] }) {
       <figcaption>
         {n === 0
           ? 'Tu olivo espera su primera hoja. Cada día que practiques, crece una.'
-          : `${n} ${n === 1 ? 'día' : 'días'} de práctica${aceitunas ? ` · ${aceitunas} ${aceitunas === 1 ? 'aceituna' : 'aceitunas'} (una por cada siete días)` : ''}. Las hojas no se caen si faltas un día.`}
+          : `${n} ${n === 1 ? 'día' : 'días'} de práctica${aceitunas ? ` — ${aceitunas} ${aceitunas === 1 ? 'aceituna' : 'aceitunas'} (una por cada siete días)` : ''}. Las hojas no se caen si faltas un día.`}
       </figcaption>
     </figure>
   );

@@ -33,7 +33,7 @@ function Cuerpo({ e, d, recargar }: { e: Entrada; d: D; recargar: () => void }) 
     case 'reflexion':
       return <Reflexion e={e} d={d} recargar={recargar} />;
     case 'circulo':
-      return <><p><strong>Depende de mí:</strong> {e.datos.dentro.join(' · ')}</p><p><strong>No depende:</strong> {e.datos.fuera.join(' · ')}</p>{e.datos.paso && <p><strong>Primer paso:</strong> {e.datos.paso}</p>}</>;
+      return <><p><strong>Depende de mí:</strong> {e.datos.dentro.join(' — ')}</p><p><strong>No depende:</strong> {e.datos.fuera.join(' — ')}</p>{e.datos.paso && <p><strong>Primer paso:</strong> {e.datos.paso}</p>}</>;
     case 'termometro':
       return <><p><strong>Hecho:</strong> {e.datos.hecho}</p><p><strong>Juicio:</strong> {e.datos.juicio} <em>({e.datos.cierto})</em></p>{e.datos.depende && <p><strong>Depende de mí:</strong> {e.datos.depende}</p>}</>;
     case 'examen':
@@ -68,7 +68,7 @@ export default function Diario({ base }: { base: string }) {
         <ol class="entradas">
           {entradas.map((e) => (
             <li class={`entrada ${e.tipo}`} key={e.id}>
-              <p class="inscripcion">{NOMBRE[e.tipo]} · {fecha(e.creada)}</p>
+              <p class="inscripcion">{NOMBRE[e.tipo]} — {fecha(e.creada)}</p>
               <h3>{e.titulo}</h3>
               <Cuerpo e={e} d={d} recargar={() => recargar()} />
               <button class="borrar" type="button" onClick={async () => { await d.borrar(e.id); recargar(); }} aria-label={`Borrar entrada: ${e.titulo}`}>Borrar</button>

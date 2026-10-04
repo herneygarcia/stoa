@@ -30,7 +30,7 @@ legend { font: 400 var(--t-3)/1.3 var(--f-display); margin-bottom: var(--e-2); p
 /* Termómetro */
 .pasos { list-style: none; padding: 0; margin: 0 0 var(--e-3); display: flex; gap: var(--e-1); flex-wrap: wrap; counter-reset: p; }
 .pasos li { counter-increment: p; font-size: var(--t-0); color: var(--piedra-2); padding: .3rem .6rem; border-radius: 999px; border: 1px solid var(--veta); }
-.pasos li::before { content: counter(p, upper-roman) ' · '; font-family: var(--f-inscripcion); }
+.pasos li::before { content: counter(p, upper-roman) ' — '; font-family: var(--f-inscripcion); }
 .pasos li[aria-current] { border-color: var(--piedra); color: var(--piedra); font-weight: 600; }
 .pasos li.hecho { background: var(--cal-2); }
 .opciones { display: flex; flex-wrap: wrap; gap: .5rem; }

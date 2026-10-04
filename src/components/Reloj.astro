@@ -80,7 +80,7 @@ const { cx: CX, cy: CY, rx: RX, ry: RY } = SUELO;
     figura.sol.style.opacity = dia ? '1' : '0';
     figura.luna.style.opacity = dia ? '0' : '1';
     reloj.querySelectorAll('.hora').forEach((t) => t.classList.toggle('actual', dia && Number(t.getAttribute('data-h')) === Math.round(h)));
-    figura.texto.textContent = `Colombia · ${formatoHora(h)}`;
+    figura.texto.textContent = `Colombia — ${formatoHora(h)}`;
     document.documentElement.dataset.momento = momentoDelDia(h);
   }
 

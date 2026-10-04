@@ -4,7 +4,7 @@ import type { APIRoute } from 'astro';
 export const GET: APIRoute = () => {
   const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   return new Response(JSON.stringify({
-    name: 'Stoa · estoicismo para cada día',
+    name: 'Stoa — estoicismo para cada día',
     short_name: 'Stoa',
     description: 'Un caso real cada día, prácticas estoicas y un diario privado.',
     lang: 'es',
