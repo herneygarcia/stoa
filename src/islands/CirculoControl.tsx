@@ -38,10 +38,13 @@ function Chip({ it, mover }: { it: Item; mover: (id: number, zona: Zona) => void
   return (
     <li class={`chip ${it.zona}`} onPointerDown={(ev) => arrastrar(ev, (zona) => mover(it.id, zona))}>
       <span>{it.texto}</span>
-      <span class="acciones">
-        {it.zona !== 'dentro' && <button type="button" onClick={() => mover(it.id, 'dentro')} aria-label={`Mover "${it.texto}" a: depende de mí`}>Depende de mí</button>}
-        {it.zona !== 'fuera' && <button type="button" onClick={() => mover(it.id, 'fuera')} aria-label={`Mover "${it.texto}" a: no depende de mí`}>No depende</button>}
-      </span>
+      {/* Ya ubicada se muestra solo el texto; para corregir se arrastra. */}
+      {it.zona === 'sin' && (
+        <span class="acciones">
+          <button type="button" onClick={() => mover(it.id, 'dentro')} aria-label={`Mover "${it.texto}" a: depende de mí`}>Depende de mí</button>
+          <button type="button" onClick={() => mover(it.id, 'fuera')} aria-label={`Mover "${it.texto}" a: no depende de mí`}>No depende</button>
+        </span>
+      )}
     </li>
   );
 }
@@ -82,8 +85,8 @@ export default function CirculoControl() {
     return (
       <section class="circulo-sintesis" aria-live="polite">
         <p class="inscripcion">Síntesis</p>
-        <p class="grande">Tu atención va aquí: <strong>{dentro.map((x) => x.texto).join(' · ') || 'nada todavía'}</strong>.</p>
-        {fuera.length > 0 && <p>Esto no te corresponde; puedes soltarlo: {fuera.map((x) => x.texto).join(' · ')}.</p>}
+        <p class="grande">Tu atención va aquí: <strong>{dentro.map((x) => x.texto).join(' — ') || 'nada todavía'}</strong>.</p>
+        {fuera.length > 0 && <p>Esto no te corresponde; puedes soltarlo: {fuera.map((x) => x.texto).join(' — ')}.</p>}
         {fase === 'sintesis' ? (
           <>
             <label for="primer-paso">Elige una sola cosa de adentro. ¿Cuál es el primer paso concreto?</label>
@@ -110,7 +113,7 @@ export default function CirculoControl() {
 
       {sin.length > 0 && (
         <div class="bandeja" data-zona="sin">
-          <p class="inscripcion">Sin ubicar · arrástralas o usa los botones</p>
+          <p class="inscripcion">Sin ubicar — arrástralas o usa los botones</p>
           <ul>{sin.map((it) => <Chip key={it.id} it={it} mover={mover} />)}</ul>
         </div>
       )}
@@ -127,7 +130,7 @@ export default function CirculoControl() {
       <p class="visualmente-oculto" aria-live="polite">{aviso}</p>
       <p class="fila">
         <button class="boton" type="button" disabled={dentro.length + fuera.length === 0} onClick={() => setFase('sintesis')}>Terminar</button>
-        <span class="ayuda-texto">{items.length === 0 ? 'Empieza escribiendo una preocupación.' : `${dentro.length} dentro · ${fuera.length} fuera`}</span>
+        <span class="ayuda-texto">{items.length === 0 ? 'Empieza escribiendo una preocupación.' : `${dentro.length} dentro — ${fuera.length} fuera`}</span>
       </p>
     </div>
   );

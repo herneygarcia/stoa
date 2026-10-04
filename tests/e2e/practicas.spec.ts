@@ -28,6 +28,7 @@ test('CA-003.1 círculo del control solo con teclado', async ({ page }) => {
   await campo.press('Enter');
   await page.getByRole('button', { name: 'Mover "La reunión del jueves" a: depende de mí' }).press('Enter');
   await page.getByRole('button', { name: 'Mover "Lo que opine mi jefe" a: no depende de mí' }).press('Enter');
+  await expect(page.locator('.anillo .chip button, .lista-fuera .chip button')).toHaveCount(0);
   await page.getByRole('button', { name: 'Terminar' }).click();
   await expect(page.getByText('Tu atención va aquí')).toContainText('La reunión del jueves');
   await page.getByLabel(/primer paso/).fill('Preparar tres puntos');
