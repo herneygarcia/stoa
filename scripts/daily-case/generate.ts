@@ -5,7 +5,7 @@ import { z } from 'zod';
 import { AMBITOS, PRINCIPIOS, VIRTUDES, LIMITES } from '../../src/lib/schemas.ts';
 import type { Contexto } from './contexto.ts';
 
-export const MODELO = process.env.STOA_MODELO ?? 'claude-opus-5';
+export const MODELO = process.env.STOA_MODELO ?? 'claude-opus-5-5';
 
 // Esquema de salida: forma simple para la API; las reglas finas las aplica el arnés (src/lib/reglas.ts).
 export const CasoCandidato = z.object({

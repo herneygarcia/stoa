@@ -24,7 +24,7 @@ jobs:
         run: npm run daily
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          STOA_MODELO: ${{ vars.STOA_MODELO || 'claude-opus-5' }}
+          STOA_MODELO: ${{ vars.STOA_MODELO || 'claude-opus-5-5' }}
       - name: Validar todo el contenido
         run: npm run validate:content
       - name: Guardar en el repositorio

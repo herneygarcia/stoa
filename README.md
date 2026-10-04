@@ -31,7 +31,7 @@ npm run evals:llm        # evals con el modelo (requiere ANTHROPIC_API_KEY)
 ## Publicar en GitHub Pages
 1. Crea el repositorio y sube el código a `main`.
 2. *Settings → Pages → Source: GitHub Actions*.
-3. *Settings → Secrets and variables → Actions*: secreto `ANTHROPIC_API_KEY` (y opcionalmente la variable `STOA_MODELO`; por defecto `claude-opus-5`).
+3. *Settings → Secrets and variables → Actions*: secreto `ANTHROPIC_API_KEY` (y opcionalmente la variable `STOA_MODELO`; por defecto `claude-opus-5-5`).
 4. `deploy.yml` publica en cada push; `daily.yml` corre a las 05:00 de Bogotá y también se puede lanzar a mano.
 
 Sin la clave, el sitio funciona igual: cada día muestra un caso del banco curado.
