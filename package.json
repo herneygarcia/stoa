@@ -23,7 +23,8 @@
     "duplicacion": "jscpd src scripts tests",
     "muerto": "knip",
     "test:cobertura": "vitest run --coverage",
-    "mutacion": "stryker run"
+    "mutacion": "stryker run",
+    "lighthouse": "node scripts/lighthouse.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.127.0",
@@ -38,6 +39,7 @@
     "@astrojs/check": "^0.9.10",
     "@axe-core/playwright": "^4.13.0",
     "@eslint/js": "^10.0.1",
+    "@lhci/cli": "^0.15.1",
     "@playwright/test": "^1.63.0",
     "@stryker-mutator/core": "^10.0.0",
     "@types/node": "^26.6.2",
