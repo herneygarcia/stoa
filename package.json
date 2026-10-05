@@ -24,7 +24,7 @@
     "muerto": "knip",
     "test:cobertura": "vitest run --coverage",
     "mutacion": "stryker run",
-    "lighthouse": "node scripts/lighthouse.mjs"
+    "lighthouse": "lhci autorun"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.127.0",

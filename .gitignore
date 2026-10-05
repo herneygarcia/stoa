@@ -11,3 +11,4 @@ reports/
 coverage/
 stryker-setup-*.js
 .claude/settings.local.json
+.lighthouseci/
