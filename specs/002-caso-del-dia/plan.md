@@ -6,4 +6,4 @@
   - `generate.ts`: Claude (`claude-sonnet-5`) con salida JSON estructurada; recibe principios, IDs de citas permitidas, ámbito del día (rotación) y títulos de los últimos 14 casos.
   - `rubric.ts`: reglas deterministas (esquema, conteo de palabras, cita en corpus, términos prohibidos, no repetición) + juez LLM con veredicto JSON.
   - `run.ts`: orquesta hasta 3 intentos; escribe el archivo o hace fallback; `--dry-run` imprime sin escribir.
-- GitHub Actions `daily.yml` (cron 10:00 UTC = 05:00 Bogotá): run → verify → commit → build → deploy Pages.
+- GitHub Actions `daily.yml` (cron 05:05 UTC = 00:05 Bogotá): run → verify → commit → build → deploy Pages.

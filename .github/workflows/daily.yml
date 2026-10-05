@@ -1,10 +1,10 @@
 name: Caso del día
 
-# 10:00 UTC = 05:00 en Bogotá. Genera el caso con Claude, lo pasa por el arnés,
+# 05:05 UTC = 00:05 en Bogotá. Genera el caso con Claude, lo pasa por el arnés,
 # lo publica si aprueba (o deja el caso del banco como fallback) y reconstruye el sitio.
 on:
   schedule:
-    - cron: '0 10 * * *'
+    - cron: '5 5 * * *'
   workflow_dispatch:
 
 permissions:
