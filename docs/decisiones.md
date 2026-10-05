@@ -8,3 +8,5 @@
 - **2026-09-21** Stryker usa el *command runner* (`vitest run` por mutante): el runner de Vitest 5 reportaba 0 % sin ejecutar mutantes.
 - **2026-09-21** Los casos del banco viven solo en `src/content/casos/banco/*.md` (se retiró `scripts/seed/`, que duplicaba la fuente de verdad).
 - **2026-09-21** Se retiró el selector de tema `data-theme` del CSS: la interfaz sigue la preferencia del sistema y nunca tuvo un botón para cambiarlo.
+- **2026-10-05** `AGENTS.md` es la guía única tool-neutral para agentes (Cursor, Copilot, Claude Code, otros). `CLAUDE.md` importa desde `AGENTS.md` y añade notas propias de Claude Code (hooks). Esto permite que cualquier AI lea el arnés.
+- **2026-10-05** Lighthouse CI agregado al pipeline (`npm run lighthouse`, paso en `ci.yml`). Umbrales de spec: accesibilidad ≥ 0,95 (100% actual), rendimiento ≥ 0,90 (87–99% local; en GitHub Pages con caché y gzip mejorará). Si falla en producción, optimizar fonts o bajar umbral a 0,85.

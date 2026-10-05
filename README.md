@@ -4,10 +4,13 @@ PWA en español que introduce la filosofía estoica con **un caso de la vida rea
 
 ## Qué hay dentro
 - **Hoy**: el pórtico como reloj de sol (la sombra sigue la hora de Bogotá), el caso del día y la práctica del momento (mañana: preparación · tarde: acción · noche: examen).
-- **Principios** (7) y **virtudes** (4), basados en `Principios Básicos del Estoicismo.docx`, corregidos y con fuentes exactas.
-- **Prácticas**: círculo del control, termómetro de emociones y examen nocturno (interactivos), más premeditación, visión desde arriba, reserva mental, incomodidad voluntaria, memento mori y las dos asas.
-- **Casos**: 90 casos curados en 9 ámbitos + un caso nuevo cada mañana generado con Claude y aprobado por el arnés.
-- **Diario**: vive solo en el dispositivo (IndexedDB); se exporta o se borra. La constancia se ve como un olivo que crece.
+- **Principios** (7) y **virtudes** (4), basados en fuentes clásicas corregidas y con referencias exactas.
+- **Prácticas** (9): círculo del control, termómetro de emociones, examen nocturno (interactivas), más premeditatio malorum, visión desde arriba, reserva mental, incomodidad voluntaria, memento mori y las dos asas.
+- **Casos**: 90 casos curados en 9 ámbitos (amor, amistad, ciudad, dinero, relaciones, salud, trabajo, etc.) + un caso nuevo cada mañana generado con Claude y aprobado por el arnés.
+- **Diario**: vive solo en el dispositivo (IndexedDB); se exporta o se borra. La constancia se ve como un olivo que crece, sin castigo por días perdidos.
+
+## Para desarrolladoras y agentes
+Lee [`AGENTS.md`](AGENTS.md) para el mapa del código, comandos y definición de terminado. 
 
 ## Cómo se trabaja (SDD + arnés)
 1. `.specify/memory/constitution.md`: reglas no negociables.
