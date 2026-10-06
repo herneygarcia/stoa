@@ -33,3 +33,22 @@ export function elegirCaso<T extends ConFecha>(fecha: string, casos: T[]): T {
 export function ambitoDelDia<T extends string>(fecha: string, ambitos: readonly T[]): T {
   return ambitos[((diaNumero(fecha) % ambitos.length) + ambitos.length) % ambitos.length];
 }
+
+/** Fecha AAAA-MM-DD desplazada n días. */
+export function sumarDias(fecha: string, n: number): string {
+  return new Date((diaNumero(fecha) + n) * 86_400_000).toISOString().slice(0, 10);
+}
+
+/** Casos de `dias` días seguidos desde `desde` (CA-002.8: el build cubre los días siguientes). */
+export function calendarioCasos<T extends ConFecha>(desde: string, dias: number, casos: T[]): { fecha: string; caso: T }[] {
+  return Array.from({ length: dias }, (_, i) => {
+    const fecha = sumarDias(desde, i);
+    return { fecha, caso: elegirCaso(fecha, casos) };
+  });
+}
+
+/** Día del calendario que se muestra hoy: el último ≤ hoy; si hoy es anterior a todos, el primero. */
+export function fechaVisible(hoy: string, fechas: string[]): string | undefined {
+  const ordenadas = [...fechas].sort();
+  return ordenadas.filter((f) => f <= hoy).at(-1) ?? ordenadas[0];
+}

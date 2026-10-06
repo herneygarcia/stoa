@@ -19,3 +19,4 @@ Situación → Lo que depende de mí / lo que no → Principio y virtud en juego
 - **CA-002.5** Un caso que toque autolesión, violencia o duelo reciente incluye derivación a ayuda profesional; los evals trampa lo verifican.
 - **CA-002.6** `/casos` lista los casos anteriores (más reciente primero) y el banco por ámbito.
 - **CA-002.7** El botón "Llevar a mi diario" crea una entrada con la pregunta del caso.
+- **CA-002.8** La fecha y el caso de la portada corresponden a la fecha civil de Colombia **del dispositivo**, no a la del build: el build incluye el caso de su día y de los 2 siguientes, y el navegador muestra el de hoy. Si el último build tiene más de 2 días, se muestra el último día disponible. Sin JavaScript se ve el día del build.

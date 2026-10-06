@@ -2,9 +2,13 @@ name: Caso del día
 
 # 05:05 UTC = 00:05 en Bogotá. Genera el caso con Claude, lo pasa por el arnés,
 # lo publica si aprueba (o deja el caso del banco como fallback) y reconstruye el sitio.
+# GitHub retrasa u omite crons: 07:05 y 10:05 UTC son respaldos (run.ts sale si el caso de hoy ya existe).
+# La fecha visible no depende de esto: la elige el navegador (CA-002.8).
 on:
   schedule:
     - cron: '5 5 * * *'
+    - cron: '5 7 * * *'
+    - cron: '5 10 * * *'
   workflow_dispatch:
 
 permissions:

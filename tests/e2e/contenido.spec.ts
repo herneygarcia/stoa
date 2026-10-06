@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+import { sumarDias } from '../../src/lib/caso-del-dia';
+import { fechaEnColombia } from '../../src/lib/tiempo';
 
 test('CA-001.1 siete principios con numeral romano y resumen', async ({ page }) => {
   await page.goto('/principios');
@@ -32,9 +34,25 @@ for (const ruta of ['/', '/principios', '/principios/apatheia', '/virtudes', '/p
 
 test('CA-002.1 la portada muestra exactamente un caso del día', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('#caso article.caso')).toHaveCount(1);
+  await expect(page.locator('#caso article.caso').filter({ visible: true })).toHaveCount(1);
   await expect(page.locator('#caso')).toContainText('Depende de ti');
   await expect(page.locator('#caso')).toContainText('No depende de ti');
+});
+
+test('CA-002.8 al día siguiente del build, la portada cambia de fecha y de caso sin reconstruir', async ({ page }) => {
+  const ahora = Date.now();
+  const hoy = fechaEnColombia(new Date(ahora));
+  await page.goto('/');
+  const fechaVisible = page.locator('.saludo [data-dia]').filter({ visible: true });
+  await expect(fechaVisible).toHaveAttribute('data-dia', hoy);
+  const casoDeHoy = await page.locator('#caso h2').filter({ visible: true }).textContent();
+
+  await page.clock.install({ time: ahora + 86_400_000 });
+  await page.reload();
+  await expect(fechaVisible).toHaveCount(1);
+  await expect(fechaVisible).toHaveAttribute('data-dia', sumarDias(hoy, 1));
+  await expect(page.locator('#caso article.caso').filter({ visible: true })).toHaveCount(1);
+  await expect(page.locator('#caso h2').filter({ visible: true })).not.toHaveText(casoDeHoy ?? '');
 });
 
 test('CA-002.6 /casos lista el banco por ámbito', async ({ page }) => {

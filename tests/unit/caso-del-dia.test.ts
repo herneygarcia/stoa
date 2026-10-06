@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { elegirCaso, indiceBanco, ambitoDelDia } from '../../src/lib/caso-del-dia';
+import { elegirCaso, indiceBanco, ambitoDelDia, sumarDias, calendarioCasos, fechaVisible } from '../../src/lib/caso-del-dia';
 import { fechaEnColombia } from '../../src/lib/tiempo';
 
 const banco = Array.from({ length: 90 }, (_, i) => ({ id: `banco/c${String(i).padStart(2, '0')}` }));
-const sumar = (f: string, d: number) => new Date(Date.parse(`${f}T00:00:00Z`) + d * 86_400_000).toISOString().slice(0, 10);
+const sumar = sumarDias;
 
 describe('CA-002.1 caso del día', () => {
   it('usa la hora civil de Colombia (UTC-5)', () => {
@@ -61,4 +61,31 @@ describe('caso del día: casos límite', () => {
   });
   it('la rotación de ámbitos recorre todos en orden', () =>
     expect(Array.from({ length: 3 }, (_, i) => ambitoDelDia(sumar('2026-01-01', i), ['a', 'b', 'c'])).sort()).toEqual(['a', 'b', 'c']));
+});
+
+describe('CA-002.8 el día lo decide el dispositivo, no el build', () => {
+  it('suma días cruzando meses, años y 1970', () => {
+    expect(sumarDias('2026-10-05', 1)).toBe('2026-10-06');
+    expect(sumarDias('2026-12-31', 1)).toBe('2027-01-01');
+    expect(sumarDias('2028-02-28', 1)).toBe('2028-02-29');
+    expect(sumarDias('1970-01-01', -1)).toBe('1969-12-31');
+    expect(sumarDias('2026-10-05', 0)).toBe('2026-10-05');
+  });
+  it('el calendario cubre días seguidos con el caso de cada uno', () => {
+    const diario = { id: 'diarios/2026-10-06', fecha: new Date('2026-10-06') };
+    const cal = calendarioCasos('2026-10-05', 3, [...banco, diario]);
+    expect(cal.map((d) => d.fecha)).toEqual(['2026-10-05', '2026-10-06', '2026-10-07']);
+    expect(cal[0].caso).toEqual(elegirCaso('2026-10-05', banco));
+    expect(cal[1].caso).toBe(diario);
+    expect(cal[2].caso).not.toEqual(cal[0].caso);
+  });
+  const fechas = ['2026-10-07', '2026-10-05', '2026-10-06'];
+  it.each([
+    ['2026-10-05', '2026-10-05'],
+    ['2026-10-06', '2026-10-06'],
+    ['2026-10-07', '2026-10-07'],
+    ['2026-10-09', '2026-10-07'],
+    ['2026-10-04', '2026-10-05'],
+  ])('hoy %s muestra %s', (hoy, esperado) => expect(fechaVisible(hoy, fechas)).toBe(esperado));
+  it('sin días no hay nada que mostrar', () => expect(fechaVisible('2026-10-05', [])).toBeUndefined());
 });

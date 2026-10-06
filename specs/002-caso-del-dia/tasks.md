@@ -7,3 +7,6 @@
 - [x] T6 Evals dorados y trampa (CA-002.5)
 - [x] T7 Workflow `daily.yml`
 - [x] T8 Botón "Llevar a mi diario" (CA-002.7)
+- [x] T9 `calendarioCasos`, `sumarDias`, `fechaVisible` + tests (CA-002.8)
+- [x] T10 Portada: ventana de 3 días y elección en el navegador + E2E con reloj simulado (CA-002.8)
+- [x] T11 `daily.yml`: horarios de respaldo (el cron de GitHub se retrasa u omite)

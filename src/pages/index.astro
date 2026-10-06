@@ -3,15 +3,16 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Reloj from '../components/Reloj.astro';
 import CasoView from '../components/CasoView.astro';
-import { elegirCaso } from '../lib/caso-del-dia';
+import { calendarioCasos } from '../lib/caso-del-dia';
 import { fechaEnColombia } from '../lib/tiempo';
 import { url } from '../lib/url';
 
-// CA-002.1: el sitio se reconstruye cada día a las 05:00 (Bogotá); el caso se fija en el build.
+// CA-002.1 / CA-002.8: el build trae el caso de su día y de los 2 siguientes; el navegador muestra el de hoy
+// (el cron de GitHub puede llegar con horas de retraso). Sin JS se ve el día del build.
 const hoy = fechaEnColombia();
 const casos = (await getCollection('casos')).map((c) => ({ ...c, fecha: c.data.fecha }));
-const caso = elegirCaso(hoy, casos);
-const fechaLarga = new Intl.DateTimeFormat('es-CO', { timeZone: 'UTC', weekday: 'long', day: 'numeric', month: 'long' }).format(new Date(`${hoy}T12:00:00Z`));
+const formato = new Intl.DateTimeFormat('es-CO', { timeZone: 'UTC', weekday: 'long', day: 'numeric', month: 'long' });
+const dias = calendarioCasos(hoy, 3, casos).map((d) => ({ ...d, larga: formato.format(new Date(`${d.fecha}T12:00:00Z`)) }));
 const momentos = [
   { id: 'manana', rotulo: 'Mañana — preparación', frase: 'Antes de salir, mira el día de frente.', practica: 'premeditatio', cta: 'Preparar el día', cita: 'med-2-1' },
   { id: 'tarde', rotulo: 'Tarde — acción', frase: 'Ahora: lo que depende de ti.', practica: 'circulo-del-control', cta: 'Ordenar lo que me inquieta', cita: 'enq-1' },
@@ -21,7 +22,7 @@ const momentos = [
 <Base titulo="Stoa" seccion="hoy">
   <section class="portico envoltura">
     <div class="saludo">
-      <p class="inscripcion">{fechaLarga}</p>
+      {dias.map((d) => <p class="inscripcion" data-dia={d.fecha} hidden={d.fecha !== hoy}>{d.larga}</p>)}
       <h1>{momentos.map((m) => <span class="momento" data-momento-bloque={m.id}>{m.frase}</span>)}</h1>
       <p class="bajada">Stoa es un pórtico para practicar la filosofía estoica en la vida diaria: un caso real cada día, ejercicios breves y un diario que solo tú lees.</p>
       <p class="acciones">
@@ -35,7 +36,7 @@ const momentos = [
   <div class="envoltura"><div class="fresco" role="presentation"></div></div>
 
   <section id="caso" class="envoltura seccion-caso">
-    <CasoView caso={caso} etiqueta="Caso del día" />
+    {dias.map((d) => <div data-dia={d.fecha} hidden={d.fecha !== hoy}><CasoView caso={d.caso} etiqueta="Caso del día" /></div>)}
   </section>
 
   <section class="envoltura atajo">
@@ -56,6 +57,21 @@ const momentos = [
     </div>
   </section>
 </Base>
+
+<script>
+  import { fechaVisible } from '../lib/caso-del-dia';
+  import { fechaEnColombia } from '../lib/tiempo';
+
+  // CA-002.8: muestra el día de hoy en Colombia según el dispositivo.
+  function mostrarHoy() {
+    const bloques = [...document.querySelectorAll<HTMLElement>('[data-dia]')];
+    const visible = fechaVisible(fechaEnColombia(), bloques.map((b) => b.dataset.dia ?? ''));
+    bloques.forEach((b) => { b.hidden = b.dataset.dia !== visible; });
+  }
+
+  mostrarHoy();
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) mostrarHoy(); });
+</script>
 
 <style>
   .portico { display: grid; gap: var(--e-4); align-items: center; padding-block: var(--e-4) var(--e-5); }
