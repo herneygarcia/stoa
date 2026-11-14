@@ -119,3 +119,4 @@ Lo escribe `scripts/daily-case/run.ts` en cada ejecución (publicación o fallba
 - 2026-11-13T13:00:28.899Z · 2026-11-13: sin credenciales de Anthropic; se muestra el caso del banco (fallback)
 - 2026-11-13T15:18:07.919Z · 2026-11-13: sin credenciales de Anthropic; se muestra el caso del banco (fallback)
 - 2026-11-13T17:38:03.574Z · 2026-11-13: sin credenciales de Anthropic; se muestra el caso del banco (fallback)
+- 2026-11-14T12:04:48.565Z · 2026-11-14: sin credenciales de Anthropic; se muestra el caso del banco (fallback)
